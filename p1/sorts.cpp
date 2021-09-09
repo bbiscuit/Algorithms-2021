@@ -1,6 +1,5 @@
 #include "sorts.h"
 
-#include <iostream>
 
 void sorts::insertion_sort(int* arr, ar_size size) {
     for (ar_size j = 1; j < size; j++) {
