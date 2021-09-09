@@ -77,29 +77,35 @@ int* clone_array(int* arr, ar_size size) {
     return arr2;
 }
 
-tuple<unsigned long, unsigned long> run_test(ar_size size) {
+tuple<double, double> run_test(ar_size size) {
     // I. Generate the arrays necessary.
     int* ins_arr = random_array(size);
     int* quick_arr = clone_array(ins_arr, size);
 
     // II. Run the test, while recording the timespan for both.
     // auto begin = system_clock::now();
-    unsigned long begin = duration_cast<nanoseconds>(system_clock::now().time_since_epoch()).count();
+    //unsigned long begin = duration_cast<nanoseconds>(high_resolution_clock::now().time_since_epoch()).count();
+    auto begin = std::chrono::steady_clock::now();
     sorts::insertion_sort(ins_arr, size);
-    unsigned long end = duration_cast<nanoseconds>(system_clock::now().time_since_epoch()).count();
+    auto end = std::chrono::steady_clock::now();
+    //unsigned long end = duration_cast<nanoseconds>(high_resolution_clock::now().time_since_epoch()).count();
     // auto end = system_clock::now();
     // auto result_ins = end - begin;
-    unsigned long result_ins = end - begin;
+    //unsigned long result_ins = end - begin;
+    std::chrono::duration<double> result_ins = end - begin;
 
-    begin = duration_cast<nanoseconds>(system_clock::now().time_since_epoch()).count();
+    begin = std::chrono::steady_clock::now();
+    //begin = duration_cast<nanoseconds>(high_resolution_clock::now().time_since_epoch()).count();
     sorts::quick_sort(quick_arr, size);
-    end = duration_cast<nanoseconds>(system_clock::now().time_since_epoch()).count();
-    unsigned long result_quick = end - begin;
+    end = std::chrono::steady_clock::now();
+    //end = duration_cast<nanoseconds>(high_resolution_clock::now().time_since_epoch()).count();
+    //unsigned long result_quick = end - begin;
+    std::chrono::duration<double> result_quick = end - begin;
 
     delete[] ins_arr;
     delete[] quick_arr;
 
-    return make_tuple(result_ins, result_quick);
+    return make_tuple(result_ins.count(), result_quick.count());
 }
 
 int main(int argc, char** argv) {
