@@ -110,6 +110,22 @@ int* clone_array(int* arr, ar_size size) {
     return arr2;
 }
 
+unsigned long long run_insertion(int* arr, ar_size size) {
+    auto begin = steady_clock::now();
+    sorts::insertion_sort(arr, size);
+    auto end = steady_clock::now();
+
+    return duration_cast<nanoseconds>(end - begin).count();
+}
+
+unsigned long long run_quick(int* arr, ar_size size) {
+    auto begin = steady_clock::now();
+    sorts::quick_sort(arr, size);
+    auto end = steady_clock::now();
+
+    return duration_cast<nanoseconds>(end - begin).count();
+}
+/*
 tuple<unsigned long long, unsigned long long> run_test(ar_size size) {
     // I. Generate the arrays necessary.
     int* ins_arr = random_array(size);
@@ -140,19 +156,19 @@ tuple<unsigned long long, unsigned long long> run_test(ar_size size) {
 
     return make_tuple(duration_cast<nanoseconds>(result_ins).count(), duration_cast<nanoseconds>(result_quick).count());
 }
+*/
 
 int main(int argc, char** argv) {
     srand(time(0));
-    ar_size size;
-    if (argc > 1) {
-        size = stoi(argv[1]);
-    }
-    else {
-        size = 500;
+
+    vector<tuple<ar_size, unsigned long long, unsigned long long>> data(1000);
+
+    for (ar_size i = 1; i < 500; i += 1) {
+        int* ins = random_array(i);
+        int* quick = clone_array(ins, i);
+
+        data.push_back(make_tuple(i, run_insertion(ins, i), run_quick(quick, i)));
     }
 
-    auto result = run_test(size);
-
-    cout << "ins runtime: " << get<0>(result) << endl;
-    cout << "quick runtime: " << get<1>(result) << endl;
+    log_data(data, "1_to_500.csv");
 }
