@@ -1,8 +1,14 @@
 #include <iostream>
 #include "sorts.h"
 #include <stdlib.h>
+#include <chrono>
+#include <tuple>
+#include <string>
 
 using namespace std;
+using namespace std::chrono;
+
+typedef duration<nanoseconds> nanotime;
 
 bool test_sortedness(int* arr, ar_size size) {
     for (ar_size i = 1; i < size; i++) {
@@ -61,8 +67,50 @@ bool test_insertion(ar_size size) {
     return result;
 }
 
-int main() {
-    srand(0);
-    cout << "quicksort test: " << test_quicksort(100000000) << endl;
-    cout << "insertion test: " << test_insertion(10000) << endl;
+int* clone_array(int* arr, ar_size size) {
+    int* arr2 = new int[size];
+
+    for (ar_size i = 0; i < size; i++) {
+        arr2[i] = arr[i];
+    }
+
+    return arr2;
+}
+
+tuple<nanoseconds, nanoseconds> run_test(ar_size size) {
+    // I. Generate the arrays necessary.
+    int* ins_arr = random_array(size);
+    int* quick_arr = clone_array(ins_arr, size);
+
+    // II. Run the test, while recording the timespan for both.
+    auto begin = system_clock::now();
+    sorts::insertion_sort(ins_arr, size);
+    auto end = system_clock::now();
+    auto result_ins = end - begin;
+
+    begin = system_clock::now();
+    sorts::quick_sort(quick_arr, size);
+    end = system_clock::now();
+    auto result_quick = end - begin;
+
+    delete[] ins_arr;
+    delete[] quick_arr;
+
+    return make_tuple(nanoseconds(result_ins),nanoseconds(result_quick));
+}
+
+int main(int argc, char** argv) {
+    srand(time(0));
+    ar_size size;
+    if (argc > 1) {
+        size = stoi(argv[1]);
+    }
+    else {
+        size = 500;
+    }
+
+    auto result = run_test(size);
+
+    cout << "ins runtime: " << get<0>(result).count() << endl;
+    cout << "quick runtime: " << get<1>(result).count() << endl;
 }
