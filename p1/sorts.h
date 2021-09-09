@@ -1,11 +1,11 @@
 #pragma once
 
-typedef unsigned long long ull;
+typedef long int ar_size;
 
 namespace sorts {
 
-    void insertion_sort(int* arr, ull size);
+    void insertion_sort(int* arr, ar_size size);
 
-    void quick_sort(int* arr, ull size);
+    void quick_sort(int* arr, ar_size size);
 
 }
