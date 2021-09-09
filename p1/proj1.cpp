@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <sstream>
 
 using namespace std;
 using namespace std::chrono;
@@ -161,7 +162,7 @@ tuple<unsigned long long, unsigned long long> run_test(ar_size size) {
 int main(int argc, char** argv) {
     srand(time(0));
 
-    vector<tuple<ar_size, unsigned long long, unsigned long long>> data(1000);
+    vector<tuple<ar_size, unsigned long long, unsigned long long>> data;
 
     for (ar_size i = 1; i < 500; i += 1) {
         int* ins = random_array(i);
