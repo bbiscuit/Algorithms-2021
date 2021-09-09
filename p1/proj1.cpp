@@ -77,26 +77,29 @@ int* clone_array(int* arr, ar_size size) {
     return arr2;
 }
 
-tuple<nanoseconds, nanoseconds> run_test(ar_size size) {
+tuple<unsigned long, unsigned long> run_test(ar_size size) {
     // I. Generate the arrays necessary.
     int* ins_arr = random_array(size);
     int* quick_arr = clone_array(ins_arr, size);
 
     // II. Run the test, while recording the timespan for both.
-    auto begin = system_clock::now();
+    // auto begin = system_clock::now();
+    unsigned long begin = duration_cast<nanoseconds>(system_clock::now()).count();
     sorts::insertion_sort(ins_arr, size);
-    auto end = system_clock::now();
-    auto result_ins = end - begin;
+    unsigned long end = duration_cast<nanoseconds>(system_clock::now()).count();
+    // auto end = system_clock::now();
+    // auto result_ins = end - begin;
+    unsigned long result_ins = end_ns - begin_ns;
 
-    begin = system_clock::now();
+    begin = duration_cast<nanoseconds>(system_clock::now()).count();
     sorts::quick_sort(quick_arr, size);
-    end = system_clock::now();
-    auto result_quick = end - begin;
+    end = duration_cast<nanoseconds>(system_clock::now()).count();
+    unsigned long result_quick = end - begin;
 
     delete[] ins_arr;
     delete[] quick_arr;
 
-    return make_tuple(nanoseconds(result_ins),nanoseconds(result_quick));
+    return make_tuple(result_ins, result_quick);
 }
 
 int main(int argc, char** argv) {
@@ -111,6 +114,6 @@ int main(int argc, char** argv) {
 
     auto result = run_test(size);
 
-    cout << "ins runtime: " << get<0>(result).count() << endl;
-    cout << "quick runtime: " << get<1>(result).count() << endl;
+    cout << "ins runtime: " << get<0>(result) << endl;
+    cout << "quick runtime: " << get<1>(result) << endl;
 }
