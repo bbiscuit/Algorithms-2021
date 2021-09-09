@@ -77,7 +77,7 @@ int* clone_array(int* arr, ar_size size) {
     return arr2;
 }
 
-tuple<double, double> run_test(ar_size size) {
+tuple<long, long> run_test(ar_size size) {
     // I. Generate the arrays necessary.
     int* ins_arr = random_array(size);
     int* quick_arr = clone_array(ins_arr, size);
@@ -92,7 +92,7 @@ tuple<double, double> run_test(ar_size size) {
     // auto end = system_clock::now();
     // auto result_ins = end - begin;
     //unsigned long result_ins = end - begin;
-    std::chrono::duration<double> result_ins = end - begin;
+    auto result_ins = end - begin;
 
     begin = std::chrono::steady_clock::now();
     //begin = duration_cast<nanoseconds>(high_resolution_clock::now().time_since_epoch()).count();
@@ -100,12 +100,12 @@ tuple<double, double> run_test(ar_size size) {
     end = std::chrono::steady_clock::now();
     //end = duration_cast<nanoseconds>(high_resolution_clock::now().time_since_epoch()).count();
     //unsigned long result_quick = end - begin;
-    std::chrono::duration<double> result_quick = end - begin;
+    auto result_quick = end - begin;
 
     delete[] ins_arr;
     delete[] quick_arr;
 
-    return make_tuple(result_ins.count(), result_quick.count());
+    return make_tuple(duration_cast<nanoseconds>(result_ins).count(), duration_cast<nanoseconds>(result_quick).count());
 }
 
 int main(int argc, char** argv) {
