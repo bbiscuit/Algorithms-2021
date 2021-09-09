@@ -23,6 +23,25 @@ int* random_array(ull size) {
     return arr;
 }
 
+bool test_quicksort(ull size){
+    // I. Create an array of randomly sized elements.
+    // II. Run the array through the insertion sort algorithm.
+    // III. Test whether or not it is sorted.
+
+    // I. Create an array of randomly sized elements.
+    int* arr = random_array(size);
+
+    // II. Run the array through the insertion sort algorithm.
+    sorts::quick_sort(arr, size);
+
+    // III. Test whether or not it is sorted.
+    bool result = test_sortedness(arr, size);
+
+    delete[] arr;
+
+    return result;
+}
+
 bool test_insertion(ull size) {
     // I. Create an array of randomly sized elements.
     // II. Run the array through the insertion sort algorithm.
@@ -44,6 +63,6 @@ bool test_insertion(ull size) {
 
 int main() {
     srand(0);
-    
+    cout << "insertion test: " << test_quicksort(100000) << endl;
     cout << "insertion test: " << test_insertion(100000) << endl;
 }
