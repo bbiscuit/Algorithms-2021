@@ -84,16 +84,16 @@ tuple<unsigned long, unsigned long> run_test(ar_size size) {
 
     // II. Run the test, while recording the timespan for both.
     // auto begin = system_clock::now();
-    unsigned long begin = duration_cast<nanoseconds>(system_clock::now()).count();
+    unsigned long begin = duration_cast<nanoseconds>(system_clock::now().time_since_epoch()).count();
     sorts::insertion_sort(ins_arr, size);
-    unsigned long end = duration_cast<nanoseconds>(system_clock::now()).count();
+    unsigned long end = duration_cast<nanoseconds>(system_clock::now().time_since_epoch()).count();
     // auto end = system_clock::now();
     // auto result_ins = end - begin;
-    unsigned long result_ins = end_ns - begin_ns;
+    unsigned long result_ins = end - begin;
 
-    begin = duration_cast<nanoseconds>(system_clock::now()).count();
+    begin = duration_cast<nanoseconds>(system_clock::now().time_since_epoch()).count();
     sorts::quick_sort(quick_arr, size);
-    end = duration_cast<nanoseconds>(system_clock::now()).count();
+    end = duration_cast<nanoseconds>(system_clock::now().time_since_epoch()).count();
     unsigned long result_quick = end - begin;
 
     delete[] ins_arr;
