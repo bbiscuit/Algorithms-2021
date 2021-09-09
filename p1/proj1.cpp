@@ -4,8 +4,8 @@
 
 using namespace std;
 
-bool test_sortedness(int* arr, ull size) {
-    for (ull i = 1; i < size; i++) {
+bool test_sortedness(int* arr, ar_size size) {
+    for (ar_size i = 1; i < size; i++) {
         if (arr[i] < arr[i - 1]) {
             return false;
         }
@@ -14,16 +14,16 @@ bool test_sortedness(int* arr, ull size) {
     return true;
 }
 
-int* random_array(ull size) {
+int* random_array(ar_size size) {
     int* arr = new int[size];
-    for (ull i = 0; i < size; i++) {
+    for (ar_size i = 0; i < size; i++) {
         arr[i] = rand();
     }
 
     return arr;
 }
 
-bool test_quicksort(ull size){
+bool test_quicksort(ar_size size){
     // I. Create an array of randomly sized elements.
     // II. Run the array through the insertion sort algorithm.
     // III. Test whether or not it is sorted.
@@ -42,7 +42,7 @@ bool test_quicksort(ull size){
     return result;
 }
 
-bool test_insertion(ull size) {
+bool test_insertion(ar_size size) {
     // I. Create an array of randomly sized elements.
     // II. Run the array through the insertion sort algorithm.
     // III. Test whether or not it is sorted.
@@ -63,6 +63,6 @@ bool test_insertion(ull size) {
 
 int main() {
     srand(0);
-    cout << "quicksort test: " << test_quicksort(1000) << endl;
+    cout << "quicksort test: " << test_quicksort(100000000) << endl;
     cout << "insertion test: " << test_insertion(10000) << endl;
 }

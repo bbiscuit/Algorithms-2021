@@ -1,7 +1,9 @@
 #include "sorts.h"
 
-void sorts::insertion_sort(int* arr, ull size) {
-    for (ull j = 1; j < size; j++) {
+#include <iostream>
+
+void sorts::insertion_sort(int* arr, ar_size size) {
+    for (ar_size j = 1; j < size; j++) {
         int key = arr[j];
         int i = j - 1;
 
@@ -13,16 +15,16 @@ void sorts::insertion_sort(int* arr, ull size) {
     }
 }
 
-void swap(int* arr, ull item1, ull item2) {
+void swap(int* arr, ar_size item1, ar_size item2) {
     int temp = arr[item1];
     arr[item1] = arr[item2];
     arr[item2] = temp;
 }
 
-ull partition(int* arr, ull size , ull first, ull last) {
+ar_size partition(int* arr, ar_size size , ar_size first, ar_size last) {
     int pivot = arr[last];
-    ull lower = first;
-    ull upper = last-1;
+    ar_size lower = first;
+    ar_size upper = last-1;
 
     while (lower <= upper) {
             while (lower <= upper && arr[upper] >= pivot)
@@ -37,16 +39,16 @@ ull partition(int* arr, ull size , ull first, ull last) {
     return lower;
 }
 
-void quickSort(int* arr, ull size, ull first, ull last){
+void quickSort(int* arr, ar_size size, ar_size first, ar_size last){
     if (first < last) {
-        ull mid = partition(arr, size, first, last);
+        ar_size mid = partition(arr, size, first, last);
         quickSort(arr, size, first, mid-1);
         quickSort(arr, size, mid+1, last);
     }
 }
 
-void sorts::quick_sort(int* arr, ull size) {
-    ull first,last;
+void sorts::quick_sort(int* arr, ar_size size) {
+    ar_size first,last;
     first = 0;
     last = size - 1;
     quickSort(arr,size,first,last);
