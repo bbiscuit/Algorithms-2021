@@ -164,12 +164,26 @@ int main(int argc, char** argv) {
 
     vector<tuple<ar_size, unsigned long long, unsigned long long>> data;
 
-    for (ar_size i = 1; i < 500; i += 1) {
+    for (ar_size i = 1; i < 1000; i += 1) {
         int* ins = random_array(i);
         int* quick = clone_array(ins, i);
 
         data.push_back(make_tuple(i, run_insertion(ins, i), run_quick(quick, i)));
     }
+    for (ar_size i = 1000; i < 100000; i += 100) {
+        int* ins = random_array(i);
+        int* quick = clone_array(ins, i);
+
+        data.push_back(make_tuple(i, run_insertion(ins, i), run_quick(quick, i)));
+    }
+    for (ar_size i = 100000; i < 1000000; i += 10000) {
+        int* ins = random_array(i);
+        int* quick = clone_array(ins, i);
+
+        data.push_back(make_tuple(i, 0, run_quick(quick, i)));
+    }
+    
+    
 
     log_data(data, "1_to_500.csv");
 }
