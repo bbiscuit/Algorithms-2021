@@ -77,7 +77,7 @@ int* clone_array(int* arr, ar_size size) {
     return arr2;
 }
 
-tuple<long, long> run_test(ar_size size) {
+tuple<unsigned long long, unsigned long long> run_test(ar_size size) {
     // I. Generate the arrays necessary.
     int* ins_arr = random_array(size);
     int* quick_arr = clone_array(ins_arr, size);
