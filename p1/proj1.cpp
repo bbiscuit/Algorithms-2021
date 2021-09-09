@@ -63,6 +63,6 @@ bool test_insertion(ull size) {
 
 int main() {
     srand(0);
-    cout << "insertion test: " << test_quicksort(100000) << endl;
-    cout << "insertion test: " << test_insertion(100000) << endl;
+    cout << "quicksort test: " << test_quicksort(1000) << endl;
+    cout << "insertion test: " << test_insertion(10000) << endl;
 }
