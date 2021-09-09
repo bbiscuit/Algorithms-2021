@@ -4,11 +4,44 @@
 #include <chrono>
 #include <tuple>
 #include <string>
+#include <vector>
+#include <fstream>
 
 using namespace std;
 using namespace std::chrono;
 
 typedef duration<nanoseconds> nanotime;
+
+void log_data(vector<tuple<ar_size, unsigned long long, unsigned long long>> data, string filepath) {
+    // I. Declare variables.
+    // II. LOOP THROUGH the data vector...
+        // A. Append the data piece as a row in the CSV
+        // in the following format:
+        // [# run, insertion nanoseconds, quick nanoseconds]
+    // III. Write the file.
+
+    // I. Declare variables.
+    stringstream ss;
+    ofstream f;
+
+    // I. LOOP THROUGH the data vector...
+    for (auto& e : data) {
+        // A. Append the data piece as a row in the CSV
+        // in the following format:
+        // [# run, insertion nanoseconds, quick nanoseconds]
+        ss << get<0>(e) << ',' << get<1>(e) << ',' << get<2>(e) << '\n';
+
+    }
+
+    // II. Write the file.
+    try {
+        f.open(filepath);
+        f << ss.str();
+    }
+    catch (...) {
+        f.close();
+    }
+}
 
 bool test_sortedness(int* arr, ar_size size) {
     for (ar_size i = 1; i < size; i++) {
