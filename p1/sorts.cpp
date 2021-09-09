@@ -41,13 +41,13 @@ void quickSort(int* arr, ull size, ull first, ull last){
     if (first < last) {
         ull mid = partition(arr, size, first, last);
         quickSort(arr, size, first, mid-1);
-        quickSort(arr, size, mid, last);
+        quickSort(arr, size, mid+1, last);
     }
 }
 
 void sorts::quick_sort(int* arr, ull size) {
     ull first,last;
     first = 0;
-    last = size;
+    last = size - 1;
     quickSort(arr,size,first,last);
 }
