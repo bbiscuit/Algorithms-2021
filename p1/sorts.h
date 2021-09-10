@@ -8,4 +8,5 @@ namespace sorts {
 
     void quick_sort(int* arr, ar_size size);
 
+    void quick_sortPrtTwo(int* arr, ar_size size);
 }
