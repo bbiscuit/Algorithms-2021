@@ -1,5 +1,6 @@
-#include <iostream>
 #include "sorts.h"
+
+#include <iostream>
 #include <stdlib.h>
 #include <chrono>
 #include <tuple>
@@ -11,12 +12,13 @@
 using namespace std;
 using namespace std::chrono;
 
-typedef duration<nanoseconds> nanotime;
-typedef tuple<ar_size, unsigned long long, unsigned long long> size_ins_quick;
+typedef tuple<ar_size, unsigned long long, unsigned long long> SizeByInsertionByQuick;
 typedef tuple<ar_size, unsigned long long> SizeByRuntime;
 typedef tuple<ar_size, unsigned long long, unsigned long long, unsigned long long> SizeByPivotRuntimes;
 
-void logData(vector<size_ins_quick> data, string filepath) {
+// CSV LOGGING FUNCTIONS
+
+void logData(vector<SizeByInsertionByQuick> data, string filepath) {
     // I. Declare variables.
     // II. LOOP THROUGH the data vector...
         // A. Append the data piece as a row in the CSV
@@ -78,6 +80,8 @@ void logData(vector<SizeByPivotRuntimes> data, string filepath) {
     }
 }
 
+// ARRAY MANIPULATION
+
 int* randomArray(ar_size size) {
     int* arr = new int[size];
     for (ar_size i = 0; i < size; i++) {
@@ -97,6 +101,8 @@ int* cloneArray(int* arr, ar_size size) {
     return arr2;
 }
 
+// SORT RUNNING FUNCTIONS
+
 unsigned long long runInsertion(int* arr, ar_size size) {
     auto begin = steady_clock::now();
     sorts::insertion_sort(arr, size);
@@ -113,7 +119,9 @@ unsigned long long runQuick(int* arr, ar_size size, sorts::PivotChoice choice = 
     return duration_cast<nanoseconds>(end - begin).count();
 }
 
-void runTests(vector<size_ins_quick>& data, bool run_i, bool run_q, unsigned short rerun_count, ar_size min_size, ar_size max_size, ar_size size_step) {
+// TEST FUNCTIONS
+
+void runTests(vector<SizeByInsertionByQuick>& data, bool run_i, bool run_q, unsigned short rerun_count, ar_size min_size, ar_size max_size, ar_size size_step) {
     for (ar_size i = min_size; i <= max_size; i += size_step) {
         double avg_ins = 0.0;
         double avg_quick = 0.0;
@@ -166,44 +174,35 @@ void runPivotCompare(vector<SizeByPivotRuntimes>& data, unsigned short rerun_cou
     }
 }
 
+void runPreSorted(vector<SizeByInsertionByQuick>& data, unsigned short rerun_count, ar_size min_size, ar_size max_size, ar_size size_step) {
+    for (ar_size i = min_size; i <= max_size; i += size_step) {
+        double avg_ins = 0.0;
+        double avg_quick = 0.0;
 
-/*
-tuple<unsigned long long, unsigned long long> run_test(ar_size size) {
-    // I. Generate the arrays necessary.
-    int* ins_arr = random_array(size);
-    int* quick_arr = clone_array(ins_arr, size);
+        cout << "size: " << i << endl;
 
-    // II. Run the test, while recording the timespan for both.
-    // auto begin = system_clock::now();
-    //unsigned long begin = duration_cast<nanoseconds>(high_resolution_clock::now().time_since_epoch()).count();
-    auto begin = std::chrono::steady_clock::now();
-    sorts::insertion_sort(ins_arr, size);
-    auto end = std::chrono::steady_clock::now();
-    //unsigned long end = duration_cast<nanoseconds>(high_resolution_clock::now().time_since_epoch()).count();
-    // auto end = system_clock::now();
-    // auto result_ins = end - begin;
-    //unsigned long result_ins = end - begin;
-    auto result_ins = end - begin;
+        for (unsigned short j = 0; j < rerun_count; j++) {
+            int* ins = randomArray(i);
+            runQuick(ins, i);
+            int* quick = cloneArray(ins, i);
 
-    begin = std::chrono::steady_clock::now();
-    //begin = duration_cast<nanoseconds>(high_resolution_clock::now().time_since_epoch()).count();
-    sorts::quick_sort(quick_arr, size);
-    end = std::chrono::steady_clock::now();
-    //end = duration_cast<nanoseconds>(high_resolution_clock::now().time_since_epoch()).count();
-    //unsigned long result_quick = end - begin;
-    auto result_quick = end - begin;
+            avg_ins += runInsertion(ins, i) / (double)rerun_count;
+            auto result = runQuick(quick, i);
+            avg_quick += result / (double)rerun_count;
 
-    delete[] ins_arr;
-    delete[] quick_arr;
+            delete[] ins;
+            delete[] quick;
+        }
 
-    return make_tuple(duration_cast<nanoseconds>(result_ins).count(), duration_cast<nanoseconds>(result_quick).count());
+        data.push_back(make_tuple(i, (unsigned long long)avg_ins, (unsigned long long)avg_quick));
+    }
 }
-*/
+
 
 int main(int argc, char** argv) {
     srand(time(0));
 
-    vector<size_ins_quick> data;
+    vector<SizeByInsertionByQuick> data;
     //vector<SizeByPivotRuntimes> data;
 
     // quick:
@@ -219,7 +218,10 @@ int main(int argc, char** argv) {
     // run_tests(data, false, true, 3, 60000, 100000, 10000);
 
     // compare:
-    runTests(data, true, true, 100, 1, 500, 1);
+    // runTests(data, true, true, 100, 1, 500, 1);
+
+    // presorted
+    runPreSorted(data, 100, 0, 50, 1);
 
     // pivot compares:
     //run_pivot_compare(data, 3, 0, 10000, 100);
@@ -228,5 +230,5 @@ int main(int argc, char** argv) {
 
     // run_tests(data, true, true, 3, 1, 200, 1);
 
-    logData(data, "iq_compare.csv");
+    logData(data, "pre_sorted.csv");
 }
