@@ -97,9 +97,39 @@ void quickSort(int* arr, ar_size size, ar_size first, ar_size last, sorts::Pivot
     }
 }
 
+ar_size partitionTwo(int* arr, ar_size size , ar_size first, ar_size last) {
+    ar_size pivot = arr[last];
+    ar_size lowPtr = first - 1;
+    for (ar_size i = first; i < (last - 1); i++) {
+        if (arr[i] <= pivot){
+            lowPtr = lowPtr + 1;
+            swap(arr, lowPtr, i);
+        }
+    }
+    lowPtr = lowPtr + 1;
+    swap(arr, lowPtr, last);
+    return lowPtr;
+}
+
+void quickSortTheSecond(int* arr, ar_size size, ar_size first, ar_size last){
+    if (first < last) {
+        ar_size mid = partitionTwo(arr, size, first, last);
+        quickSort(arr, size, first, mid-1);
+        quickSort(arr, size, mid+1, last);
+    }
+}
+
 void sorts::quick_sort(int* arr, ar_size size, sorts::PivotChoice choice) {
+
     ar_size first,last;
     first = 0;
     last = size - 1;
     quickSort(arr,size,first,last, choice);
+}
+
+void sorts::quick_sortPrtTwo(int* arr, ar_size size) {
+    ar_size first,last;
+    first = 0;
+    last = size - 1;
+    quickSortTheSecond(arr,size,first,last);
 }
