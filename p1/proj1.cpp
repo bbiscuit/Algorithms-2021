@@ -172,11 +172,12 @@ int main(int argc, char** argv) {
         data.push_back(make_tuple(i, run_insertion(ins, i), run_quick(quick, i)));
     }
     cout << "finished 1-1000" << endl;
-    for (ar_size i = 1000; i < 100000; i += 100) {
+    for (ar_size i = 1000; i < 100000; i += 1000) {
         int* ins = random_array(i);
         int* quick = clone_array(ins, i);
 
         data.push_back(make_tuple(i, run_insertion(ins, i), run_quick(quick, i)));
+        cout << i << endl;
     }
     cout << "finished 1000-100000" << endl;
     for (ar_size i = 100000; i < 1000000; i += 10000) {
