@@ -12,8 +12,9 @@ using namespace std;
 using namespace std::chrono;
 
 typedef duration<nanoseconds> nanotime;
+typedef tuple<ar_size, unsigned long long, unsigned long long> size_ins_quick;
 
-void log_data(vector<tuple<ar_size, unsigned long long, unsigned long long>> data, string filepath) {
+void log_data(vector<size_ins_quick> data, string filepath) {
     // I. Declare variables.
     // II. LOOP THROUGH the data vector...
         // A. Append the data piece as a row in the CSV
@@ -162,7 +163,7 @@ tuple<unsigned long long, unsigned long long> run_test(ar_size size) {
 int main(int argc, char** argv) {
     srand(time(0));
 
-    vector<tuple<ar_size, unsigned long long, unsigned long long>> data;
+    vector<size_ins_quick> data;
 
     for (ar_size i = 1; i < 1000; i += 1) {
         int* ins = random_array(i);
