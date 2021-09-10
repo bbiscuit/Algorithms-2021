@@ -114,8 +114,8 @@ ar_size partitionTwo(int* arr, ar_size size , ar_size first, ar_size last) {
 void quickSortTheSecond(int* arr, ar_size size, ar_size first, ar_size last){
     if (first < last) {
         ar_size mid = partitionTwo(arr, size, first, last);
-        quickSort(arr, size, first, mid-1);
-        quickSort(arr, size, mid+1, last);
+        quickSort(arr, size, first, mid-1, sorts::PivotChoice::last);
+        quickSort(arr, size, mid+1, last, sorts::PivotChoice::last);
     }
 }
 
