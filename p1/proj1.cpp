@@ -13,6 +13,7 @@ using namespace std::chrono;
 
 typedef duration<nanoseconds> nanotime;
 typedef tuple<ar_size, unsigned long long, unsigned long long> size_ins_quick;
+typedef tuple<ar_size, unsigned long long> SizeByRuntime;
 
 void log_data(vector<size_ins_quick> data, string filepath) {
     // I. Declare variables.
@@ -127,6 +128,35 @@ unsigned long long run_quick(int* arr, ar_size size) {
 
     return duration_cast<nanoseconds>(end - begin).count();
 }
+
+void run_tests(vector<size_ins_quick>& data, bool run_i, bool run_q, unsigned short rerun_count, ar_size min_size, ar_size max_size, ar_size size_step) {
+    for (ar_size i = min_size; i <= max_size; i += size_step) {
+        double avg_ins = 0.0;
+        double avg_quick = 0.0;
+
+        cout << "size: " << i << endl;
+
+        for (unsigned short j = 0; j < rerun_count; j++) {
+            int* ins = random_array(i);
+            int* quick = clone_array(ins, i);
+
+            if (run_i) {
+                avg_ins += run_insertion(ins, i) / (double)rerun_count;
+            }
+            if (run_q) {
+                auto result = run_quick(quick, i);
+                avg_quick += result / (double)rerun_count;
+            }
+
+            delete[] ins;
+            delete[] quick;
+        }
+
+        data.push_back(make_tuple(i, (unsigned long long)avg_ins, (unsigned long long)avg_quick));
+    }
+}
+
+
 /*
 tuple<unsigned long long, unsigned long long> run_test(ar_size size) {
     // I. Generate the arrays necessary.
@@ -165,29 +195,22 @@ int main(int argc, char** argv) {
 
     vector<size_ins_quick> data;
 
-    for (ar_size i = 1; i < 1000; i += 1) {
-        int* ins = random_array(i);
-        int* quick = clone_array(ins, i);
-
-        data.push_back(make_tuple(i, run_insertion(ins, i), run_quick(quick, i)));
-    }
-    cout << "finished 1-1000" << endl;
-    for (ar_size i = 1000; i < 100000; i += 1000) {
-        int* ins = random_array(i);
-        int* quick = clone_array(ins, i);
-
-        data.push_back(make_tuple(i, run_insertion(ins, i), run_quick(quick, i)));
-        cout << i << endl;
-    }
-    cout << "finished 1000-100000" << endl;
-    for (ar_size i = 100000; i < 1000000; i += 10000) {
-        int* ins = random_array(i);
-        int* quick = clone_array(ins, i);
-
-        data.push_back(make_tuple(i, 0, run_quick(quick, i)));
-    }
-    
+    // quick:
+    // run_tests(data, false, true, 3, 0, 250000, 1000);
+    // run_tests(data, false, true, 3, 260000, 500000, 10000);
+    // run_tests(data, false, true, 3, 600000, 1000000, 100000);
     
 
-    log_data(data, "1_to_500.csv");
+    // insertion:
+    // run_tests(data, false, true, 3, 0, 3000, 5);
+    // run_tests(data, false, true, 3, 3100, 10000, 100);
+    // run_tests(data, false, true, 3, 11000, 50000, 1000);
+    // run_tests(data, false, true, 3, 60000, 100000, 10000);
+
+    // compare:
+    run_tests(data, true, true, 100, 1, 200, 1);
+
+    // run_tests(data, true, true, 3, 1, 200, 1);
+
+    log_data(data, "iq_compare.csv");
 }
