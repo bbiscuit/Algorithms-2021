@@ -6,8 +6,8 @@ package com.algorithms.makingchange;
  * @author Andrew Huffman
  * @author Kyle Samuelson
  */
-public class ChangeMaker {
+public interface ChangeMaker {
     
-
+    public abstract CoinPurse count(int value, DenominationSet set);
 
 }
