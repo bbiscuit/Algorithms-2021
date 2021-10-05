@@ -5,7 +5,8 @@ public class TestFile {
         DenominationSet denom = new DenominationSet();
         CoinPurse testR = null;
         ChangeMaker testRecurse = new Recursive();
-        testR = testRecurse.count(26, denom);
+        testR = testRecurse.count(50, denom);
+        System.out.print("Number of Coins back: ");
         System.out.println(testR.getNumCoins());
         for (int i = 0; i < denom.numDenominations(); i++){
             if(testR.getNumCoins(denom.get(i)) != 0){
