@@ -16,19 +16,20 @@ public class Recursive implements ChangeMaker {
         }
         CoinPurse bestCP = null;
         int coinAdded = 0;
-        for (int i = 0; i < set.numDenominations(); i++){
+        for (int i = set.numDenominations()-1; i > 0; i--){
             int den = set.get(i);
             int nextValue = (value - den);
+            CoinPurse currCP = new CoinPurse(set);
             if (nextValue > 0){
-                CoinPurse currCP = RecursiveSearch(nextValue, set);
-                if (bestCP == null) {
-                    bestCP = currCP;
-                    coinAdded = den;
-                }
-                if (currCP.getNumCoins() < bestCP.getNumCoins()) {
-                    bestCP = currCP;       
-                    coinAdded = den;     
-                }
+                 currCP = RecursiveSearch(nextValue, set);
+            }
+            if (bestCP == null) {
+                bestCP = currCP;
+                coinAdded = den;
+            }
+            if ((currCP.getNumCoins() < bestCP.getNumCoins()) || (bestCP.getNumCoins() == 0)) {
+                bestCP = currCP;       
+                coinAdded = den;     
             }
         }
 
