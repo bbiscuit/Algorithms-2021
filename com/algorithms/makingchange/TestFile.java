@@ -5,13 +5,13 @@ public class TestFile {
         DenominationSet denom = new DenominationSet();
         CoinPurse testR = null;
         ChangeMaker testRecurse = new Recursive();
-        testR = testRecurse.count(10, denom);
+        testR = testRecurse.count(26, denom);
         System.out.println(testR.getNumCoins());
         for (int i = 0; i < denom.numDenominations(); i++){
-            if(testR.hasDenomination(i)){
+            if(testR.getNumCoins(denom.get(i)) != 0){
                 System.out.print(denom.get(i));
                 System.out.print(":");
-                System.out.println(testR.getNumCoins(i));
+                System.out.println(testR.getNumCoins(denom.get(i)));
             }
         }
     }
