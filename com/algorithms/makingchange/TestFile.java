@@ -2,7 +2,7 @@ package com.algorithms.makingchange;
 
 public class TestFile {
     public static void main(String[] args) {
-        int[] denomSet = new int[]{1, 20};
+        int[] denomSet = new int[]{1, 5, 20};
         DenominationSet denom = new DenominationSet(denomSet);
         CoinPurse testR = null;
         ChangeMaker testRecurse = new Recursive();
