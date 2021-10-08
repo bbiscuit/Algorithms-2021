@@ -90,7 +90,7 @@ public class MemoizationChangeMaker implements ChangeMaker {
         str.close();
         s.close();
 
-        ChangeMaker cm = new MemoizationChangeMaker();
+        ChangeMaker cm = new TopDownChangeMaker();
         CoinPurse result = cm.count(val, set);
 
         System.out.println(result.getNumCoins());

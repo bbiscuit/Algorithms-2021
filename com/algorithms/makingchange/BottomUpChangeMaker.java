@@ -64,40 +64,4 @@ public class BottomUpChangeMaker implements ChangeMaker {
 
         return array[value];
     }
-
-    public static void main(String[] args) {
-        System.out.print("Enter a denomination set (space delim): ");
-        Scanner s = new Scanner(System.in);
-        String input = s.nextLine();
-
-        Scanner str = new Scanner(input);
-        ArrayList<Integer> dens = new ArrayList<Integer>();
-
-        while (str.hasNextInt()) {
-            dens.add(str.nextInt());
-        }
-        str.close();
-
-        int[] arr = new int[dens.size()];
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = dens.get(i);
-        }
-        
-        DenominationSet set = new DenominationSet(arr);
-
-        System.out.print("Enter a value to calc: ");
-        input = s.nextLine();
-        str = new Scanner(input);
-        int val = str.nextInt();
-
-        str.close();
-        s.close();
-
-        ChangeMaker cm = new BottomUpChangeMaker();
-        CoinPurse result = cm.count(val, set);
-
-        System.out.println(result.getNumCoins());
-        System.out.println(result.getTotal());
-    }
-    
 }

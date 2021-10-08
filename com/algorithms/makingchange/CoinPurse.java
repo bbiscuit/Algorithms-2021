@@ -133,13 +133,20 @@ public class CoinPurse {
         return c;
     }
 
-    /**
-     * Returns the CoinPurse with the least amount of coins.
-     * @param o The other coin purse.
-     * @return The minimum coin purse.
-     */
-    public CoinPurse minCoinCount(CoinPurse o) {
-        return getNumCoins() > o.getNumCoins() ? o : this; 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(getTotal() + " cents = ");
+        final int NUM_DEN = set.numDenominations();
+
+        for (int i = NUM_DEN - 1; i >= 0; i--) {
+            if (values[i] != 0) {
+                sb.append(set.get(i) + ":" + values[i] + ' ');
+            }
+        } 
+
+        return sb.toString().trim();
     }
 
     public static CoinPurse minCoinCount(CoinPurse[] purses) {
