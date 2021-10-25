@@ -24,6 +24,15 @@ public class Dominion {
         }
     }
 
+    public Dominion findKingdom() {
+        Dominion p = this;
+        while (p.hasParent()) {
+            p = p.getParent();
+        }
+
+        return p;
+    }
+
     public static Coordinate getNMK(int dominion, int nlen, int mlen, int klen) {
         int n = dominion % nlen;
         int m = dominion / nlen % mlen;
