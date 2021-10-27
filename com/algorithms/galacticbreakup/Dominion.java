@@ -5,14 +5,10 @@ public class Dominion {
     private Coordinate Coord;
     private int numChildren;
 
-
-    public Dominion(Dominion parent) {
-        this.parent = parent;
-        this.numChildren = 0;
-    }
-
-    public Dominion() {
-        this(null);
+    public Dominion(int number, int n, int m, int k) {
+        setNMK(number, n, m, k);
+        parent = null;
+        numChildren = 0;
     }
 
     public void incrementServants(int currentChildren){
@@ -54,7 +50,7 @@ public class Dominion {
         return p;
     }
 
-    public void setNMK(int dominion, int nlen, int mlen, int klen) {
+    private void setNMK(int dominion, int nlen, int mlen, int klen) {
         int n = dominion % nlen;
         int m = dominion / nlen % mlen;
         int k = dominion / nlen / mlen % klen;
