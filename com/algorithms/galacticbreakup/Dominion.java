@@ -2,6 +2,7 @@ package com.algorithms.galacticbreakup;
 
 public class Dominion {
     private Dominion parent;
+    private Coordinate Coord;
     private int numChildren;
 
 
@@ -52,12 +53,15 @@ public class Dominion {
         return p;
     }
 
-    public static Coordinate getNMK(int dominion, int nlen, int mlen, int klen) {
+    public void setNMK(int dominion, int nlen, int mlen, int klen) {
         int n = dominion % nlen;
         int m = dominion / nlen % mlen;
         int k = dominion / nlen / mlen % klen;
 
-        return new Coordinate(n, m, k);
-        
+        this.Coord = new Coordinate(n, m, k);   
+    }
+
+    public Coordinate getNMK() {
+        return Coord;
     }
 }

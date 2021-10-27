@@ -11,7 +11,7 @@ public class Main {
         System.out.println();
 
         for (int i = 0; i < n * m * k; i++) {
-            System.out.println(Dominion.getNMK(i, n, m, k));
+            //System.out.println(Dominion.getNMK(i, n, m, k));
         }
         s.close();
     }
