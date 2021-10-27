@@ -10,6 +10,7 @@ import java.util.Scanner;
  */
 class ProblemDef {
     private int[][] dominions; 
+    private int n, m, k;
     
     public ProblemDef(Scanner input) throws ProblemDefMalformatException {
         // I. Read in number of steps.
@@ -19,6 +20,28 @@ class ProblemDef {
         
         int numSteps;
         int numDominions;
+
+        if (input.hasNextInt()) {
+            n = input.nextInt();
+        }
+        else {
+            throw new ProblemDefMalformatException("Expecting n.");
+            
+        }
+        if (input.hasNextInt()) {
+            m = input.nextInt();
+        }
+        else {
+            throw new ProblemDefMalformatException("Expecting m.");
+            
+        }
+        if (input.hasNextInt()) {
+            k = input.nextInt();
+        }
+        else {
+            throw new ProblemDefMalformatException("Expecting k.");
+            
+        }
         
         // I. Read in number of steps.
         if (input.hasNextInt()) {
@@ -55,6 +78,7 @@ class ProblemDef {
         }
     }
 
+
     public int getNumSteps() {
         return dominions.length;
     }
@@ -63,13 +87,30 @@ class ProblemDef {
         return dominions[step].length;
     }
 
+
     public int getDominion(int step, int index) {
         return dominions[step][index];
+    }
+
+    public int getNDimension() {
+        return n;
+    }
+
+    public int getMDimension() {
+        return m;
+    }
+
+    public int getKDimension() {
+        return k;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+
+        sb.append(n + " ");
+        sb.append(m + " ");
+        sb.append(k + " ");
 
         sb.append(dominions.length);
         sb.append('\n');
