@@ -4,18 +4,20 @@ import java.util.ArrayList;
 
 public class Monarchy {
     private Dominion matrix[][][];
-    private int nMax,mMax,kMax;
+    private int nMax,mMax,kMax, monthsSeparated;
     private ArrayList<Dominion> list = new ArrayList<>();
 
-    public Dominion[][][] buildGalaxy(int nlen, int mlen, int klen){
+
+    public Dominion[][][] buildGalaxy(int nlen, int mlen, int klen) {
         nMax = nlen;
         mMax = mlen;
         kMax = klen;
+        monthsSeparated = 0;
         return matrix = new Dominion[nlen][mlen][klen];
     }
 
     // Basically just makeSet
-    public void formDominionFromNothing(Dominion inputD){
+    public void formDominionFromNothing(Dominion inputD) {
         // I. We are going to start by creating the new dominion to the galaxy
         // II. We are going to add it to an empire if one exists
         //     a. Check the surrounding parsects for another dominion
@@ -45,10 +47,11 @@ public class Monarchy {
 
         // Add back the full size kingdoms
         list.add(inputD.findKingdom());
+        checkSeparation();
     }
 
     // Basically just union
-    private void unionEmpires(Dominion A, Dominion B){
+    private void unionEmpires(Dominion A, Dominion B) {
         Dominion rulerA = A.findKingdom();
         Dominion rulerB = B.findKingdom();
 
@@ -70,7 +73,7 @@ public class Monarchy {
         }
     }
 
-    private Coordinate[] findTargets(Coordinate[] coordTable, Coordinate dCoord){
+    private Coordinate[] findTargets(Coordinate[] coordTable, Coordinate dCoord) {
         // Setup a table of targets
         // [up (0), down, front, back, left, right(5)]
         int n = dCoord.getN();
@@ -125,7 +128,13 @@ public class Monarchy {
         return coordTable;
     }
 
-    public int numMonths() {
-        return list.size();
+    private void checkSeparation() {
+        if (list.size() > 1){
+            monthsSeparated += 1;
+        }
+    }
+
+    public int getMonthSeparated() {
+        return monthsSeparated;
     }
 }
