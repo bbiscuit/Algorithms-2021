@@ -125,4 +125,7 @@ public class Monarchy {
         return coordTable;
     }
 
+    public int numMonths() {
+        return list.size();
+    }
 }
