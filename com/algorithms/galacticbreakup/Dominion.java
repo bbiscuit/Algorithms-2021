@@ -7,6 +7,7 @@ public class Dominion {
 
     public Dominion(Dominion parent) {
         this.parent = parent;
+        this.numChildren = 0;
     }
 
     public Dominion() {
