@@ -2,6 +2,8 @@ package com.algorithms.galacticbreakup;
 
 public class Dominion {
     private Dominion parent;
+    private int numChildren;
+
 
     public Dominion(Dominion parent) {
         this.parent = parent;
@@ -9,6 +11,18 @@ public class Dominion {
 
     public Dominion() {
         this(null);
+    }
+
+    public void incrementServants(int currentChildren){
+        this.numChildren = numChildren + currentChildren + 1;
+    }
+
+    public void looseServants(){
+        this.numChildren = 0;
+    }
+
+    public int getServants(){
+        return numChildren;
     }
 
     public boolean hasParent() {
@@ -22,6 +36,10 @@ public class Dominion {
         else {
             return parent;
         }
+    }
+
+    public void setParent(Dominion p) {
+        this.parent = p;
     }
 
     public Dominion findKingdom() {
