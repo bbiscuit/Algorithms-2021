@@ -1,8 +1,11 @@
 package com.algorithms.galacticbreakup;
 
+import java.util.ArrayList;
+
 public class Monarchy {
     private Dominion matrix[][][];
     private int nMax,mMax,kMax;
+    private ArrayList<Dominion> list = new ArrayList<>();
 
     public Dominion[][][] buildGalaxy(int nlen, int mlen, int klen){
         nMax = nlen;
@@ -12,12 +15,13 @@ public class Monarchy {
     }
 
     // basically makeSet
-    public void formDominionFromNothing(Dominion inputD, Coordinate nmkCoord){
+    public void formDominionFromNothing(Dominion inputD){
         // I. We are going to start by creating the new dominion to the galaxy
         // II. We are going to add it to an empire if one exists
         //     a. Check the surrounding parsects for another dominion
         //     b. Set the new dominion to the current ruling dominion of the empire
-        
+        Coordinate nmkCoord = inputD.getNMK();
+
         int n = nmkCoord.getN();
         int m = nmkCoord.getM();
         int k = nmkCoord.getK();
@@ -27,7 +31,7 @@ public class Monarchy {
         // II. We are going to add it to an empire if one exists
         //     a. Check the surrounding parsects for another dominion
         Coordinate[] possibleTargets = new Coordinate[6];
-        possibleTargets = findTargets(possibleTargets, n, m, k);
+        possibleTargets = findTargets(possibleTargets, nmkCoord);
 
         //     b. Set the new dominion to the current ruling dominion of the empire
         for (int i = 0; i < 6; i++){
@@ -39,24 +43,39 @@ public class Monarchy {
             }
         }
 
+        // Add back the full size kingdoms
+        list.add(inputD.findKingdom());
     }
 
     private void unionEmpires(Dominion A, Dominion B){
         Dominion rulerA = A.findKingdom();
         Dominion rulerB = B.findKingdom();
 
+        // Remove both of the dominions from the array list while we merge them
+        // We end up adding the dominions back after the input has been added
+        for(int i = 0; i < list.size() - 1; i++){
+            if ((list.get(i) == rulerA) || (list.get(i) == rulerB) ){
+                list.remove(i);
+            }
+        }
+
         if (rulerA.getServants() >= rulerB.getServants()){
             rulerB.setParent(rulerA);
+            rulerA.incrementServants(rulerB.getServants());
         }
         else {
             rulerA.setParent(rulerB);
+            rulerB.incrementServants(rulerA.getServants());
         }
     }
 
-    private Coordinate[] findTargets(Coordinate[] coordTable, int n, int m, int k){
+    private Coordinate[] findTargets(Coordinate[] coordTable, Coordinate dCoord){
         // Setup a table of targets
         // [up (0), down, front, back, left, right(5)]
-       
+        int n = dCoord.getN();
+        int m = dCoord.getM();
+        int k = dCoord.getK();
+
         // Checking above it
         if (k > kMax - 1){
             coordTable[0] = null;
@@ -103,10 +122,6 @@ public class Monarchy {
         }
 
         return coordTable;
-    }
-
-    public Dominion secedeDominion(Dominion d){
-        return d;
     }
 
 }
