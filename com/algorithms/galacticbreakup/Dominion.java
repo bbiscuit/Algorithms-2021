@@ -31,6 +31,7 @@ public class Dominion {
         return parent != null;
     }
 
+    // Bascially findSet
     public Dominion getParent() throws NoParentException {
         if (parent == null) {
             throw new NoParentException("Dominion did not have parent.");

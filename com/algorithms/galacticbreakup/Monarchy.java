@@ -14,7 +14,7 @@ public class Monarchy {
         return matrix = new Dominion[nlen][mlen][klen];
     }
 
-    // basically makeSet
+    // Basically just makeSet
     public void formDominionFromNothing(Dominion inputD){
         // I. We are going to start by creating the new dominion to the galaxy
         // II. We are going to add it to an empire if one exists
@@ -47,6 +47,7 @@ public class Monarchy {
         list.add(inputD.findKingdom());
     }
 
+    // Basically just union
     private void unionEmpires(Dominion A, Dominion B){
         Dominion rulerA = A.findKingdom();
         Dominion rulerB = B.findKingdom();
