@@ -87,14 +87,16 @@ public class Galaxy {
             coordTable[0] = null;
         }
         else {
-            coordTable[0] = new Coordinate(n, m, k + 1);
+            if (matrix[n][m][k+1] != null)
+                coordTable[0] = new Coordinate(n, m, k + 1);
         }
         // Checking below it
         if (k < 0){
             coordTable[1] = null;
         }
         else {
-            coordTable[1] = new Coordinate(n, m, k - 1);
+            if (matrix[n][m][k-1] != null)
+                coordTable[1] = new Coordinate(n, m, k - 1);
         }
 
         // Checking front it
@@ -102,14 +104,16 @@ public class Galaxy {
             coordTable[2] = null;
         }
         else {
-            coordTable[2] = new Coordinate(n, m, k + 1);
+            if (matrix[n][m + 1][k] != null)
+                coordTable[2] = new Coordinate(n, m + 1, k);
         }
         // Checking back it
         if (m < 0){
             coordTable[3] = null;
         }
         else {
-            coordTable[3] = new Coordinate(n, m, k - 1);
+            if (matrix[n][m - 1][k] != null)
+                coordTable[3] = new Coordinate(n, m - 1, k);
         }
 
         // Checking right it
@@ -117,18 +121,21 @@ public class Galaxy {
             coordTable[4] = null;
         }
         else {
-            coordTable[4] = new Coordinate(n, m, k + 1);
+            if (matrix[n + 1][m][k] != null)
+                coordTable[4] = new Coordinate(n + 1, m, k);
         }
         // Checking left it
         if (n < 0){
             coordTable[5] = null;
         }
         else {
-            coordTable[5] = new Coordinate(n, m, k - 1);
+            if (matrix[n - 1][m][k] != null)
+                coordTable[5] = new Coordinate(n - 1, m, k);
         }
 
         return coordTable;
     }
+
 
 
     private void checkSeparation() {
