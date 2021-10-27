@@ -66,10 +66,12 @@ public class Monarchy {
         if (rulerA.getServants() >= rulerB.getServants()){
             rulerB.setParent(rulerA);
             rulerA.incrementServants(rulerB.getServants());
+            rulerB.looseServants();
         }
         else {
             rulerA.setParent(rulerB);
             rulerB.incrementServants(rulerA.getServants());
+            rulerA.looseServants();
         }
     }
 
