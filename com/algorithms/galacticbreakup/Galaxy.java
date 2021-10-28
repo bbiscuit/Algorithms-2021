@@ -44,8 +44,32 @@ public class Galaxy {
         }
 
         // Add back the full size kingdoms
-        list.add(inputD.findKingdom());
+        if (list.size() == 0){
+            list.add(inputD.findKingdom());
+        }
+        else {
+            for(int i = 0; i < list.size(); i++){
+                if (!checkKingdom(list.get(i), inputD)) {
+                    list.add(inputD.findKingdom());
+                }
+            }
+        }
+        
         checkSeparation();
+    }
+
+    private boolean checkKingdom(Dominion A, Dominion B){
+        Dominion ap = A;
+        Dominion bp = B;
+
+        while (ap.hasParent()) {
+            ap = ap.getParent();
+        }
+        while (bp.hasParent()) {
+            bp = bp.getParent();
+        }
+
+        return ap == bp;
     }
 
     // Basically just union
@@ -53,15 +77,17 @@ public class Galaxy {
         Dominion rulerA = A.findKingdom();
         Dominion rulerB = B.findKingdom();
 
-        if (rulerA != rulerB) {
-
+        
             // Remove both of the dominions from the array list while we merge them
             // We end up adding the dominions back after the input has been added
-            for(int i = 0; i < list.size() - 1; i++){
-                if ((list.get(i) == rulerA) || (list.get(i) == rulerB) ){
-                    list.remove(i);
-                }
+        for(int i = 0; i < list.size() - 1; i++){
+            if ((list.get(i) == rulerA) || (list.get(i) == rulerB) ){
+                list.remove(i);
             }
+        }
+
+        if (rulerA != rulerB) {
+
 
             if (rulerA.getServants() >= rulerB.getServants()){
                 rulerB.setParent(rulerA);
