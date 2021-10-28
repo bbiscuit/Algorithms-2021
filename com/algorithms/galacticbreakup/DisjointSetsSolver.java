@@ -1,11 +1,9 @@
 package com.algorithms.galacticbreakup;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DisjointSetsSolver {
     Dominion[][][] domMatrix;
-    ArrayList<Dominion> monarchies;
     int numSets = 0;
 
     public DisjointSetsSolver(int n, int m, int k) {
@@ -14,7 +12,6 @@ public class DisjointSetsSolver {
         }
 
         domMatrix = new Dominion[n][m][k];
-        monarchies = new ArrayList<Dominion>();
     }
 
     public void insert(int dominion) {
@@ -40,22 +37,16 @@ public class DisjointSetsSolver {
     }
 
     public int numDisjointSets() {
-        return monarchies.size();
+        return numSets;
     }
 
     void tryUnion(Dominion d) {
         Dominion[] adj = adjacencies(d);
-        boolean found = false;
 
         for (Dominion e : adj) {
             if (e != null) {
-                found = true;
                 union(d, e);
             }
-        }
-
-        if (!found) {
-            monarchies.add(d);
         }
     }
 
@@ -64,16 +55,8 @@ public class DisjointSetsSolver {
         Dominion b_p = b.getRepresentative();
 
         if (a_p != b_p) {
-            System.out.println("Unioning adjacencies " + a.getNMK().toString() + " and " + b.getNMK().toString());
             a_p.setParent(b_p);
-            if (monarchies.contains(b_p)) {
-                monarchies.remove(b_p);
-            }
-            if (!monarchies.contains(a_p)) {
-                monarchies.add(a_p);
-            }
             numSets--;
-            System.out.println("New tree count: " + numSets);
         }
 
 
