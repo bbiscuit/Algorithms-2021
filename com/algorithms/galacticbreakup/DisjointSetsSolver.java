@@ -55,7 +55,7 @@ public class DisjointSetsSolver {
         Dominion b_p = b.getRepresentative();
 
         if (a_p != b_p) {
-            a_p.setParent(b_p);
+            a_p.setRepresentative(b_p);
             numSets--;
         }
 

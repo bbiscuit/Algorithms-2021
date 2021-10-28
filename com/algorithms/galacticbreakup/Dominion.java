@@ -3,17 +3,12 @@ package com.algorithms.galacticbreakup;
 public class Dominion {
     private Dominion parent;
     private Coordinate Coord;
-    private int numChildren;
 
     public Dominion(int number, int n, int m, int k) {
         setNMK(number, n, m, k);
         parent = this;
-        numChildren = 0;
     }
 
-    public int getServants(){
-        return numChildren;
-    }
 
     public Dominion getRepresentative() {
         return getRepresentative_r(this);
@@ -21,7 +16,7 @@ public class Dominion {
 
     Dominion getRepresentative_r(Dominion x) {
         if (x != x.parent()) {
-            x.setParent(getRepresentative_r(x.parent()));
+            x.setRepresentative(getRepresentative_r(x.parent()));
         }
         return x.parent();
     }
@@ -30,7 +25,7 @@ public class Dominion {
         return parent;
     }
 
-    public void setParent(Dominion p) {
+    public void setRepresentative(Dominion p) {
         this.parent = p;
     }
 
