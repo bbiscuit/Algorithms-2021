@@ -43,6 +43,15 @@ public class DisjointSetsSolver {
     }
 
     void union(Dominion a, Dominion b) {
+        Dominion a_p = a.getRepresentative();
+        Dominion b_p = b.getRepresentative();
+
+        if (a_p != b_p) {
+
+            a_p.setParent(b_p);
+            
+        }
+
 
     }
 
