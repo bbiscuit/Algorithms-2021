@@ -69,8 +69,8 @@ public class Dominion {
 
     private void setNMK(int dominion, int nlen, int mlen, int klen) {
         int n = dominion % nlen;
-        int m = dominion / nlen % mlen;
-        int k = dominion / nlen / mlen % klen;
+        int m = (dominion / nlen) % mlen;
+        int k = dominion / (nlen * mlen);
 
         this.Coord = new Coordinate(n, m, k);   
     }
