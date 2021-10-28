@@ -7,7 +7,7 @@ public class Dominion {
 
     public Dominion(int number, int n, int m, int k) {
         setNMK(number, n, m, k);
-        parent = null;
+        parent = this;
         numChildren = 0;
     }
 
@@ -23,10 +23,12 @@ public class Dominion {
         return numChildren;
     }
 
+    @Deprecated
     public boolean hasParent() {
         return parent != null;
     }
 
+    @Deprecated
     // Bascially findSet
     public Dominion getParent() throws NoParentException {
         if (parent == null) {
@@ -35,6 +37,10 @@ public class Dominion {
         else {
             return parent;
         }
+    }
+
+    public Dominion getRepresentative() {
+        return parent;
     }
 
     public void setParent(Dominion p) {
