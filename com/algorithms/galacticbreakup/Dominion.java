@@ -11,32 +11,8 @@ public class Dominion {
         numChildren = 0;
     }
 
-    public void incrementServants(int currentChildren){
-        this.numChildren = numChildren + currentChildren + 1;
-    }
-
-    public void looseServants(){
-        this.numChildren = 0;
-    }
-
     public int getServants(){
         return numChildren;
-    }
-
-    @Deprecated
-    public boolean hasParent() {
-        return parent != null;
-    }
-
-    @Deprecated
-    // Bascially findSet
-    public Dominion getParent() throws NoParentException {
-        if (parent == null) {
-            throw new NoParentException("Dominion did not have parent.");
-        }
-        else {
-            return parent;
-        }
     }
 
     public Dominion getRepresentative() {
