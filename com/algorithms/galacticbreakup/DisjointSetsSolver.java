@@ -1,7 +1,10 @@
 package com.algorithms.galacticbreakup;
 
+import java.util.ArrayList;
+
 public class DisjointSetsSolver {
     Dominion[][][] domMatrix;
+    ArrayList<Dominion> monarchies;
 
     public DisjointSetsSolver(int n, int m, int k) {
         if (n == 0 || m == 0 || k == 0) {
@@ -34,11 +37,17 @@ public class DisjointSetsSolver {
 
     void tryUnion(Dominion d) {
         Dominion[] adj = adjacencies(d);
+        boolean found = false;
 
         for (Dominion e : adj) {
             if (e != null) {
+                found = true;
                 union(d, e);
             }
+        }
+
+        if (!found) {
+            monarchies.add(d);
         }
     }
 
@@ -49,6 +58,9 @@ public class DisjointSetsSolver {
         if (a_p != b_p) {
 
             a_p.setParent(b_p);
+            if (monarchies.contains(b_p)) {
+                monarchies.remove(b_p);
+            }
             
         }
 
@@ -86,11 +98,17 @@ public class DisjointSetsSolver {
         return adjacencies(d.getNMK());
     }
 
+
+
     Dominion at(Coordinate c) {
         return domMatrix[c.getN()][c.getM()][c.getK()];
     }
 
     void setAt(Coordinate c, Dominion val) {
         domMatrix[c.getN()][c.getM()][c.getK()] = val;
+    }
+
+    public int galacticBreakup(ProblemDef pd) {
+        return 0;
     }
 }
