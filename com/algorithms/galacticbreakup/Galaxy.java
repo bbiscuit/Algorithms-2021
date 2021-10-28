@@ -83,7 +83,7 @@ public class Galaxy {
         int k = dCoord.getK();
 
         // Checking above it
-        if (k > kMax - 1){
+        if (k >= kMax - 1){
             coordTable[0] = null;
         }
         else {
@@ -91,7 +91,7 @@ public class Galaxy {
                 coordTable[0] = new Coordinate(n, m, k + 1);
         }
         // Checking below it
-        if (k < 0){
+        if (k <= 0){
             coordTable[1] = null;
         }
         else {
@@ -100,7 +100,7 @@ public class Galaxy {
         }
 
         // Checking front it
-        if (m > mMax - 1){
+        if (m >= mMax - 1){
             coordTable[2] = null;
         }
         else {
@@ -108,7 +108,7 @@ public class Galaxy {
                 coordTable[2] = new Coordinate(n, m + 1, k);
         }
         // Checking back it
-        if (m < 0){
+        if (m <= 0){
             coordTable[3] = null;
         }
         else {
@@ -117,7 +117,7 @@ public class Galaxy {
         }
 
         // Checking right it
-        if (n > nMax - 1){
+        if (n >= nMax - 1){
             coordTable[4] = null;
         }
         else {
@@ -125,7 +125,7 @@ public class Galaxy {
                 coordTable[4] = new Coordinate(n + 1, m, k);
         }
         // Checking left it
-        if (n < 0){
+        if (n <= 0){
             coordTable[5] = null;
         }
         else {
