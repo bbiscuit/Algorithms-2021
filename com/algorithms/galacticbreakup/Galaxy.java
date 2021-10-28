@@ -80,7 +80,7 @@ public class Galaxy {
         
             // Remove both of the dominions from the array list while we merge them
             // We end up adding the dominions back after the input has been added
-        for(int i = 0; i < list.size() - 1; i++){
+        for(int i = 0; i < list.size(); i++){
             if ((list.get(i) == rulerA) || (list.get(i) == rulerB) ){
                 list.remove(i);
             }
