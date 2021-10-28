@@ -11,8 +11,39 @@ public class DisjointSetsSolver {
         domMatrix = new Dominion[n][m][k];
     }
 
-    public void insert(Dominion d) {
-        
+    public void insert(int dominion) {
+        // Build the dominion instance.
+        // Insert value into matrix
+        // If this value is not currently in our forest...
+            // Insert into forest.
+
+        Dominion d;
+        Coordinate c;
+
+
+        // Build the dominion instance.
+        d = new Dominion(dominion, domMatrix.length, domMatrix[0].length, domMatrix[0][0].length);
+
+        // Insert value into matrix
+        c = d.getNMK();
+        if (at(c) == null) {
+            setAt(c, d);
+            tryUnion(d);
+        }
+    }
+
+    void tryUnion(Dominion d) {
+        Dominion[] adj = adjacencies(d);
+
+        for (Dominion e : adj) {
+            if (e != null) {
+                union(d, e);
+            }
+        }
+    }
+
+    void union(Dominion a, Dominion b) {
+
     }
 
     Dominion[] adjacencies(int n, int m, int k) {
@@ -46,5 +77,11 @@ public class DisjointSetsSolver {
         return adjacencies(d.getNMK());
     }
 
-    
+    Dominion at(Coordinate c) {
+        return domMatrix[c.getN()][c.getM()][c.getK()];
+    }
+
+    void setAt(Coordinate c, Dominion val) {
+        domMatrix[c.getN()][c.getM()][c.getK()] = val;
+    }
 }
