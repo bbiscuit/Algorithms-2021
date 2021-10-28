@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class DisjointSetsSolver {
     Dominion[][][] domMatrix;
     ArrayList<Dominion> monarchies;
+    int numSets = 0;
 
     public DisjointSetsSolver(int n, int m, int k) {
         if (n == 0 || m == 0 || k == 0) {
@@ -33,6 +34,7 @@ public class DisjointSetsSolver {
         c = d.getNMK();
         if (at(c) == null) {
             setAt(c, d);
+            numSets++;
             tryUnion(d);
         }
     }
@@ -62,7 +64,7 @@ public class DisjointSetsSolver {
         Dominion b_p = b.getRepresentative();
 
         if (a_p != b_p) {
-
+            System.out.println("Unioning adjacencies " + a.getNMK().toString() + " and " + b.getNMK().toString());
             a_p.setParent(b_p);
             if (monarchies.contains(b_p)) {
                 monarchies.remove(b_p);
@@ -70,7 +72,8 @@ public class DisjointSetsSolver {
             if (!monarchies.contains(a_p)) {
                 monarchies.add(a_p);
             }
-            
+            numSets--;
+            System.out.println("New tree count: " + numSets);
         }
 
 
