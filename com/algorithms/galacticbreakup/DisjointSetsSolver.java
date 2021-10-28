@@ -1,6 +1,7 @@
 package com.algorithms.galacticbreakup;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class DisjointSetsSolver {
     Dominion[][][] domMatrix;
@@ -12,6 +13,7 @@ public class DisjointSetsSolver {
         }
 
         domMatrix = new Dominion[n][m][k];
+        monarchies = new ArrayList<Dominion>();
     }
 
     public void insert(int dominion) {
@@ -33,6 +35,10 @@ public class DisjointSetsSolver {
             setAt(c, d);
             tryUnion(d);
         }
+    }
+
+    public int numDisjointSets() {
+        return monarchies.size();
     }
 
     void tryUnion(Dominion d) {
@@ -60,6 +66,9 @@ public class DisjointSetsSolver {
             a_p.setParent(b_p);
             if (monarchies.contains(b_p)) {
                 monarchies.remove(b_p);
+            }
+            if (!monarchies.contains(a_p)) {
+                monarchies.add(a_p);
             }
             
         }
@@ -108,7 +117,28 @@ public class DisjointSetsSolver {
         domMatrix[c.getN()][c.getM()][c.getK()] = val;
     }
 
-    public int galacticBreakup(ProblemDef pd) {
-        return 0;
+    public static int galacticBreakup(ProblemDef pd) {
+        int months = 0;
+        DisjointSetsSolver s = new DisjointSetsSolver(pd.getNDimension(), pd.getMDimension(), pd.getKDimension());
+
+        for (int i = pd.getNumSteps() - 1; i >= 0; i--) {
+            for (int j = 0; j < pd.getNumDominionsInStep(i); j++) {
+                s.insert(pd.getDominion(i, j));
+            }
+
+            if (s.numDisjointSets() > 1) {
+                months++;
+            }
+        }
+
+        return months;
+    }
+
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        
+        ProblemDef pd = new ProblemDef(s);
+
+        System.out.println(DisjointSetsSolver.galacticBreakup(pd));
     }
 }
