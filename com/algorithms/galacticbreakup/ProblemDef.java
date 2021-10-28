@@ -10,9 +10,9 @@ import java.util.Scanner;
  */
 class ProblemDef {
     private int[][] dominions; 
-    private int n;
-    private int m;
-    private int k;
+
+    private int n, m, k;
+
     
     public ProblemDef(Scanner input) throws ProblemDefMalformatException {
         // I. Read n, m, and k
@@ -25,6 +25,7 @@ class ProblemDef {
         int numDominions;
 
         // I. Read n, m, and k
+
         if (input.hasNextInt()) {
             n = input.nextInt();
         }
@@ -33,7 +34,6 @@ class ProblemDef {
         }
         if (input.hasNextInt()) {
             m = input.nextInt();
-
         }
         else {
             throw new ProblemDefMalformatException("Expecting m.");
@@ -41,7 +41,6 @@ class ProblemDef {
         }
         if (input.hasNextInt()) {
             k = input.nextInt();
-
         }
         else {
             throw new ProblemDefMalformatException("Expecting k.");
@@ -83,6 +82,7 @@ class ProblemDef {
         }
     }
 
+
     public int getNumSteps() {
         return dominions.length;
     }
@@ -91,19 +91,21 @@ class ProblemDef {
         return dominions[step].length;
     }
 
+
     public int getDominion(int step, int index) {
         return dominions[step][index];
     }
 
-    public int getN() {
+
+    public int getNDimension() {
         return n;
     }
 
-    public int getM() {
+    public int getMDimension() {
         return m;
     }
 
-    public int getK() {
+    public int getKDimension() {
         return k;
     }
 
@@ -114,6 +116,7 @@ class ProblemDef {
         sb.append(n + " ");
         sb.append(m + " ");
         sb.append(k + " ");
+
         sb.append(dominions.length);
         sb.append('\n');
 

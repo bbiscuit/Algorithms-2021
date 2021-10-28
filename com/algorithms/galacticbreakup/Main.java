@@ -2,22 +2,18 @@ package com.algorithms.galacticbreakup;
 
 import java.util.Scanner;
 
-class Main {
-    
 
+public class Main {
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
+        int n = s.nextInt();
+        int m = s.nextInt();
+        int k = s.nextInt();
+        System.out.println();
 
-        ProblemDef pd = new ProblemDef(s);
-
-        System.out.println("Num steps: " + pd.getNumSteps());
-        for (int i = 0; i < pd.getNumSteps(); i++) {
-            System.out.println("Dominoes in step " + i + ": " + pd.getNumDominionsInStep(i));
+        for (int i = 0; i < n * m * k; i++) {
+            //System.out.println(Dominion.getNMK(i, n, m, k));
         }
-
-        System.out.println(pd);
-
         s.close();
     }
-
 }

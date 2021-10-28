@@ -2,22 +2,20 @@ package com.algorithms.galacticbreakup;
 
 import java.util.ArrayList;
 
-public class Monarchy {
+public class Galaxy {
     private Dominion matrix[][][];
     private int nMax,mMax,kMax, monthsSeparated;
     private ArrayList<Dominion> list = new ArrayList<>();
 
-
-    public Dominion[][][] buildGalaxy(int nlen, int mlen, int klen) {
+    Galaxy(int nlen, int mlen, int klen) {
         nMax = nlen;
         mMax = mlen;
         kMax = klen;
-        monthsSeparated = 0;
-        return matrix = new Dominion[nlen][mlen][klen];
+        matrix = new Dominion[nlen][mlen][klen];
     }
 
     // Basically just makeSet
-    public void formDominionFromNothing(Dominion inputD) {
+    public void formDominionExNihilo(Dominion inputD) {
         // I. We are going to start by creating the new dominion to the galaxy
         // II. We are going to add it to an empire if one exists
         //     a. Check the surrounding parsects for another dominion
@@ -55,26 +53,28 @@ public class Monarchy {
         Dominion rulerA = A.findKingdom();
         Dominion rulerB = B.findKingdom();
 
-        // Remove both of the dominions from the array list while we merge them
-        // We end up adding the dominions back after the input has been added
-        for(int i = 0; i < list.size() - 1; i++){
-            if ((list.get(i) == rulerA) || (list.get(i) == rulerB) ){
-                list.remove(i);
-            }
-        }
+        if (rulerA != rulerB) {
 
-        if (rulerA.getServants() >= rulerB.getServants()){
-            rulerB.setParent(rulerA);
-            rulerA.incrementServants(rulerB.getServants());
-            rulerB.looseServants();
-        }
-        else {
-            rulerA.setParent(rulerB);
-            rulerB.incrementServants(rulerA.getServants());
-            rulerA.looseServants();
+            // Remove both of the dominions from the array list while we merge them
+            // We end up adding the dominions back after the input has been added
+            for(int i = 0; i < list.size() - 1; i++){
+                if ((list.get(i) == rulerA) || (list.get(i) == rulerB) ){
+                    list.remove(i);
+                }
+            }
+
+            if (rulerA.getServants() >= rulerB.getServants()){
+                rulerB.setParent(rulerA);
+                rulerA.incrementServants(rulerB.getServants());
+            }
+            else {
+                rulerA.setParent(rulerB);
+                rulerB.incrementServants(rulerA.getServants());
+            }
         }
     }
 
+    // Builds adjacency matrix
     private Coordinate[] findTargets(Coordinate[] coordTable, Coordinate dCoord) {
         // Setup a table of targets
         // [up (0), down, front, back, left, right(5)]
@@ -87,14 +87,16 @@ public class Monarchy {
             coordTable[0] = null;
         }
         else {
-            coordTable[0] = new Coordinate(n, m, k + 1);
+            if (matrix[n][m][k+1] != null)
+                coordTable[0] = new Coordinate(n, m, k + 1);
         }
         // Checking below it
         if (k < 0){
             coordTable[1] = null;
         }
         else {
-            coordTable[1] = new Coordinate(n, m, k - 1);
+            if (matrix[n][m][k-1] != null)
+                coordTable[1] = new Coordinate(n, m, k - 1);
         }
 
         // Checking front it
@@ -102,14 +104,16 @@ public class Monarchy {
             coordTable[2] = null;
         }
         else {
-            coordTable[2] = new Coordinate(n, m, k + 1);
+            if (matrix[n][m + 1][k] != null)
+                coordTable[2] = new Coordinate(n, m + 1, k);
         }
         // Checking back it
         if (m < 0){
             coordTable[3] = null;
         }
         else {
-            coordTable[3] = new Coordinate(n, m, k - 1);
+            if (matrix[n][m - 1][k] != null)
+                coordTable[3] = new Coordinate(n, m - 1, k);
         }
 
         // Checking right it
@@ -117,18 +121,21 @@ public class Monarchy {
             coordTable[4] = null;
         }
         else {
-            coordTable[4] = new Coordinate(n, m, k + 1);
+            if (matrix[n + 1][m][k] != null)
+                coordTable[4] = new Coordinate(n + 1, m, k);
         }
         // Checking left it
         if (n < 0){
             coordTable[5] = null;
         }
         else {
-            coordTable[5] = new Coordinate(n, m, k - 1);
+            if (matrix[n - 1][m][k] != null)
+                coordTable[5] = new Coordinate(n - 1, m, k);
         }
 
         return coordTable;
     }
+
 
     private void checkSeparation() {
         if (list.size() > 1){
