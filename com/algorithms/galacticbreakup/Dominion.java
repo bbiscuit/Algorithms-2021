@@ -40,6 +40,17 @@ public class Dominion {
     }
 
     public Dominion getRepresentative() {
+        return getRepresentative_r(this);
+    }
+
+    Dominion getRepresentative_r(Dominion x) {
+        if (x != x.parent()) {
+            x.setParent(getRepresentative_r(x.parent()));
+        }
+        return x.parent();
+    }
+
+    Dominion parent() {
         return parent;
     }
 
