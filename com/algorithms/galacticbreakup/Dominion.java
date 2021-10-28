@@ -34,15 +34,6 @@ public class Dominion {
         this.parent = p;
     }
 
-    public Dominion findKingdom() {
-        Dominion p = this;
-        while (p.hasParent()) {
-            p = p.getParent();
-        }
-
-        return p;
-    }
-
     private void setNMK(int dominion, int nlen, int mlen, int klen) {
         int n = dominion % nlen;
         int m = (dominion / nlen) % mlen;
