@@ -3,7 +3,8 @@ package com.algorithms.rushhour;
 public class Vehicle {
     private String vehicleType;
     private String color;
-    private char orientation;
+    // private char orientation;
+    private Orientation orientation;
     private int vehicleLength;
     private Coordinate[] fullVehicle;
 
@@ -11,20 +12,31 @@ public class Vehicle {
         vehicleType = v;
         color = c;
         fullVehicle = new Coordinate[3];
-        vehicleLength = (vehicleType == "truck") ? 3 : 2;
-        orientation = o;
+        vehicleLength = (vehicleType.equals("truck")) ? 3 : 2;
+
+        // orientation = o;
+	if (o == 'h') {
+		orientation = Orientation.Horizontal;
+	}
+	else {
+		orientation = Orientation.Vertical;
+	}
 
         // pivot point / point of interest
         fullVehicle[0] = new Coordinate(x,y);
         
-        if (o == 'h')
+        if (o == 'h') {
             fullVehicle[1] = new Coordinate(x + 1, y);
-            if (vehicleType == "truck")
+            if (vehicleType.equals("truck")) {
                 fullVehicle[2] = new Coordinate(x + 2, y);
-        else
+	    }
+	}
+        else {
             fullVehicle[1] = new Coordinate(x, y + 1);
-            if (vehicleType == "truck")
+            if (vehicleType.equals("truck")) {
                 fullVehicle[2] = new Coordinate(x, y + 2);
+	    }
+	}
     }
 
     public int getVehicleLen(){
