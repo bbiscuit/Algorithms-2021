@@ -59,8 +59,8 @@ public class District {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < 6; i++){
-            for (int j = 0; j < 6; j++){
+        for (int i = 0; i < displayBoard.length; i++){
+            for (int j = 0; j < displayBoard.length; j++){
                 sb.append(displayBoard[i][j]);
             }
         }
