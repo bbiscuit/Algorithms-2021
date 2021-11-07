@@ -4,31 +4,36 @@ import java.util.ArrayList;
 
 
 public class District {
-    private Coordinate[][] gameBoard;
+    private Vehicle[][] gameBoard;
     private int[][] displayBoard;
     private Vehicle goalVehicle;
     private ArrayList<Vehicle> allVehicles;
 
     public District(){
-        gameBoard = new Coordinate[6][6];
+        gameBoard = new Vehicle[6][6];
         // diplayBoard can be used for the algorithm to determine
         // if it has checked this iteration
         displayBoard = new int[6][6];
     }
 
-    public void inputVehicle(Vehicle v, int inputNumber, Boolean isGoalVehicle){
+    public void inputVehicle(Vehicle v, int inputNumber){
         allVehicles.add(v);
 
-        if (isGoalVehicle)
+        if (v.getColour().equals("red"))
             goalVehicle = v;
 
-        Coordinate[] tempV = v.getFullVehicle();
+        Coordinate tempCoordinate = v.getSource();
 
         for (int i = 0; i < v.getVehicleLen(); i++){
-            int tempX = tempV[i].getX();
-            int tempY = tempV[i].getY();
-            gameBoard[tempX][tempY] = v.getPart(i);
-            displayBoard[tempX][tempY] = inputNumber;
+            int tempX = tempCoordinate.getX();
+            int tempY = tempCoordinate.getY();
+            if (v.getOrientation() == Orientation.Horizontal){
+                gameBoard[tempX + i][tempY] = v;
+            }
+            else {
+                gameBoard[tempX][tempY + i] = v;
+            }
+            
         }
     }
 
@@ -36,7 +41,7 @@ public class District {
         return goalVehicle;
     }
 
-    public Coordinate[][] getBoard(){
+    public Vehicle[][] getBoard(){
         return gameBoard;
     }
 
