@@ -1,5 +1,7 @@
 package com.algorithms.rushhour;
 
+
+
 /**
  * A simple coordinate in a two-dimensional array.
  * @author Andrew Huffman, Kyle Samuelson
@@ -13,9 +15,9 @@ public class Coordinate {
      * @param x The x-component of the coordinate.
      * @param y The y-component of the coordinate.
      */
-    public Coordinate(int n, int m) {
-        this.x = n;
-        this.y = m;
+    public Coordinate(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
     /**
