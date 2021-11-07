@@ -1,9 +1,13 @@
 package com.algorithms.rushhour;
 
+import java.util.ArrayList;
+
+
 public class District {
     private Coordinate[][] gameBoard;
     private int[][] displayBoard;
     private Vehicle goalVehicle;
+    private ArrayList<Vehicle> allVehicles;
 
     public District(){
         gameBoard = new Coordinate[6][6];
@@ -13,6 +17,8 @@ public class District {
     }
 
     public void inputVehicle(Vehicle v, int inputNumber, Boolean isGoalVehicle){
+        allVehicles.add(v);
+
         if (isGoalVehicle)
             goalVehicle = v;
 
