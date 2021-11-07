@@ -61,6 +61,10 @@ public class Vehicle {
         return fullVehicle;
     }
 
+    public Coordinate getPivotPoint() {
+        return fullVehicle[0];
+    }
+
     // Amount should be parsed as Positive!
     public void moveVehicle(int amount, char dir){
         if (orientation == Orientation.Horizontal){
