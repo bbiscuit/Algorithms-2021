@@ -1,103 +1,68 @@
 package com.algorithms.rushhour;
 
 public class Vehicle {
-    private String vehicleType;
+    private int vehicleLength;
     private String color;
     private Orientation orientation;
-    private Coordinate[] fullVehicle;
+    private Coordinate source;
 
-    public Vehicle(String vehicleT, String colorStr, char orien, int x, int y){
-        vehicleType = vehicleT;
+    /**
+     * Constructor.
+     * @param vehicleType The type of vehicle (car or truck) that this instance
+     * is to be.
+     * @param colorStr The color of the vehicle (string).
+     * @param orien The orientation of the vehicle ('h' or 'v')
+     * @param x The x-coordinate of the vehicle's pivot point.
+     * @param y The y-coordinate of the vehicle's pivot point.
+     */
+    public Vehicle(String vehicleType, String colorStr, char orien, int x, int y){
         color = colorStr;
-        int vehicleLength = (vehicleType.equals("truck")) ? 3 : 2;
-        fullVehicle = new Coordinate[vehicleLength];
-
-
-            // orientation = o;
+        vehicleLength = (vehicleType.equals("truck")) ? 3 : 2;
+        
+        // # Parse Orientation
         if (orien == 'h') {
             orientation = Orientation.Horizontal;
         }
-        else {
+        else if (orien == 'v') {
             orientation = Orientation.Vertical;
         }
-
-        // pivot point / point of interest
-        fullVehicle[0] = new Coordinate(x,y);
-        
-        if (orien == 'h') {
-            fullVehicle[1] = new Coordinate(x + 1, y);
-            if (vehicleType.equals("truck")) {
-                fullVehicle[2] = new Coordinate(x + 2, y);
-            }
-        }
         else {
-            fullVehicle[1] = new Coordinate(x, y + 1);
-            if (vehicleType.equals("truck")) {
-                fullVehicle[2] = new Coordinate(x, y + 2);
-            }
+            throw new InvalidVehicleException("vehicle can either be vertical or horizontal.");
         }
+
+        source = new Coordinate(x, y);
     }
 
+    /**
+     * Gets the length of the vehicle.
+     * @return The vehicle length.
+     */
     public int getVehicleLen(){
-        return fullVehicle.length;
+        return vehicleLength;
     }
 
-    public Coordinate getPart(int partNumber){
-        if ((vehicleType.equals("car")) && (partNumber == 2))
-            throw new InvalidVehicleTypeException("Vehicle type is not a truck");
-        else 
-            return fullVehicle[partNumber];
-    }
-
+    /**
+     * Gets the color of the vehicle.
+     * @return The vehicle colour.
+     */
     public String getColour(){
         return color;
     }
 
-    public String getVehicleType(){
-        return vehicleType;
+    /**
+     * Gets the orientation of the vehicle (vertical or horizontal).
+     * @return The orientation.
+     */
+    public Orientation getOrientation() {
+        return orientation;
     }
 
-    public Coordinate[] getFullVehicle(){
-        return fullVehicle;
-    }
-
-    public Coordinate getPivotPoint() {
-        return fullVehicle[0];
-    }
-
-    // Amount should be parsed as Positive!
-    public void moveVehicle(int amount, char dir){
-        if (orientation == Orientation.Horizontal){
-            switch(dir){
-                case 'R': // Moving to the right will be moving in x
-                    for (int i = 0; i < vehicleLength; i++){
-                        fullVehicle[i].moveX(amount);
-                    }
-                    break;
-                case 'L': // Moving to the left is -x
-                    for (int i = 0; i < vehicleLength; i++){
-                        fullVehicle[i].moveX(-amount);
-                    }
-                    break;
-                default:
-                    throw new InvalidMovementDirectionException("Vehicle in horizontal orientation, cannot move vertically!");
-            }
-        }
-        else {
-            switch(dir){
-                case 'U': // Moving up is +y
-                    for (int i = 0; i < vehicleLength; i++){
-                        fullVehicle[i].moveY(amount);
-                    }
-                    break;
-                case 'D': // Moving down is -y
-                    for (int i = 0; i < vehicleLength; i++){
-                        fullVehicle[i].moveY(-amount);
-                    }
-                    break;
-                default:
-                    throw new InvalidMovementDirectionException("Vehicle in vertical orientation, cannot move horizontally!");
-            }
-        }
+    /**
+     * Gets the "source" (leftmost for horizontals, bottommost for verticals) of
+     * the vehicle.
+     * @return The source.
+     */
+    public Coordinate getSource() {
+        return source;
     }
 }
