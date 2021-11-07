@@ -40,4 +40,12 @@ public class Vehicle {
     public String getColour(){
         return color;
     }
+
+    public String getVehicleType(){
+        return vehicleType;
+    }
+
+    public Coordinate getVehicleLoc(){
+        return pivotPoint;
+    }
 }
