@@ -43,7 +43,7 @@ public class Coordinate {
     }
 
     /**
-     * toString override of type Coordinate.
+     * toString override of type Coordinate for testing.
      */
     @Override
     public String toString() {
