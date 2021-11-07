@@ -31,19 +31,11 @@ public class Vehicle {
         return vehicleLength;
     }
 
-    public Coordinate getPivotPoint(){
-        return fullVehicle[0];
-    }
-
-    public Coordinate getVehicleMiddle(){
-        return fullVehicle[1];
-    }
-
-    public Coordinate getTruckEnd(){
-        if (vehicleType == "truck")
-            return fullVehicle[2];
+    public Coordinate getPart(int partNumber){
+        if ((vehicleType == "car") && (partNumber == 2))
+            throw new InvalidVehicleTypeException("Vehicle type is not a truck");
         else 
-            throw new InvalidVehicleTypeException("Vehicle type is not a truck");   
+            return fullVehicle[partNumber];
     }
 
     public String getColour(){
