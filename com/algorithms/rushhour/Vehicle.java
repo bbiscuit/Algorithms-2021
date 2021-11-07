@@ -54,7 +54,7 @@ public class Vehicle {
         return vehicleType;
     }
 
-    public Coordinate[] getVehicleLoc(){
+    public Coordinate[] getFullVehicle(){
         return fullVehicle;
     }
 
