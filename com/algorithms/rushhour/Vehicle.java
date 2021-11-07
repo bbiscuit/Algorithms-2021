@@ -4,14 +4,14 @@ public class Vehicle {
     private String vehicleType;
     private String color;
     private Orientation orientation;
-    private int vehicleLength;
     private Coordinate[] fullVehicle;
 
     public Vehicle(String vehicleT, String colorStr, char orien, int x, int y){
         vehicleType = vehicleT;
         color = colorStr;
-        fullVehicle = new Coordinate[3];
-        vehicleLength = (vehicleType.equals("truck")) ? 3 : 2;
+        int vehicleLength = (vehicleType.equals("truck")) ? 3 : 2;
+        fullVehicle = new Coordinate[vehicleLength];
+
 
             // orientation = o;
         if (orien == 'h') {
@@ -39,7 +39,7 @@ public class Vehicle {
     }
 
     public int getVehicleLen(){
-        return vehicleLength;
+        return fullVehicle.length;
     }
 
     public Coordinate getPart(int partNumber){
