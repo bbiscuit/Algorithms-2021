@@ -16,7 +16,7 @@ public class District {
         displayBoard = new int[6][6];
     }
 
-    public void inputVehicle(Vehicle v, int inputNumber){
+    public void inputVehicle(Vehicle v){
         allVehicles.add(v);
 
         if (v.getColour().equals("red"))
@@ -29,9 +29,11 @@ public class District {
             int tempY = tempCoordinate.getY();
             if (v.getOrientation() == Orientation.Horizontal){
                 gameBoard[tempX + i][tempY] = v;
+                displayBoard[tempX + i][tempY] = allVehicles.size();
             }
             else {
                 gameBoard[tempX][tempY + i] = v;
+                displayBoard[tempX][tempY + i] = allVehicles.size();
             }
             
         }
@@ -59,7 +61,7 @@ public class District {
 
         for (int i = 0; i < 6; i++){
             for (int j = 0; j < 6; j++){
-                sb.append(displayBoard[i][j] + " ");
+                sb.append(displayBoard[i][j]);
             }
         }
         return sb.toString();
