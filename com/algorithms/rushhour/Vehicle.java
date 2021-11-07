@@ -3,36 +3,43 @@ package com.algorithms.rushhour;
 public class Vehicle {
     private String vehicleType;
     private String color;
-    private Coordinate pivotPoint;
-    private Coordinate vehicleMiddle;
-    private Coordinate truckEnd;
+    private int vehicleLength;
+    private Coordinate[] fullVehicle;
 
     public Vehicle(String v, String c, char o, int x, int y){
         vehicleType = v;
         color = c;
-        pivotPoint = new Coordinate(x,y);
+        fullVehicle = new Coordinate[3];
+        vehicleLength = (vehicleType == "truck") ? 3 : 2;
+
+        // pivot point / point of interest
+        fullVehicle[0] = new Coordinate(x,y);
         
         if (o == 'h')
-            vehicleMiddle = new Coordinate(x + 1, y);
+            fullVehicle[1] = new Coordinate(x + 1, y);
             if (vehicleType == "truck")
-                truckEnd = new Coordinate(x + 2, y);
+                fullVehicle[2] = new Coordinate(x + 2, y);
         else
-            vehicleMiddle = new Coordinate(x, y + 1);
+            fullVehicle[1] = new Coordinate(x, y + 1);
             if (vehicleType == "truck")
-                truckEnd = new Coordinate(x, y + 2);
+                fullVehicle[2] = new Coordinate(x, y + 2);
+    }
+
+    public int getVehicleLen(){
+        return vehicleLength;
     }
 
     public Coordinate getPivotPoint(){
-        return pivotPoint;
+        return fullVehicle[0];
     }
 
     public Coordinate getVehicleMiddle(){
-        return vehicleMiddle;
+        return fullVehicle[1];
     }
 
     public Coordinate getTruckEnd(){
         if (vehicleType == "truck")
-            return truckEnd;
+            return fullVehicle[2];
         else 
             throw new InvalidVehicleTypeException("Vehicle type is not a truck");   
     }
@@ -45,7 +52,7 @@ public class Vehicle {
         return vehicleType;
     }
 
-    public Coordinate getVehicleLoc(){
-        return pivotPoint;
+    public Coordinate[] getVehicleLoc(){
+        return fullVehicle;
     }
 }
