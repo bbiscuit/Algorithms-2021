@@ -3,6 +3,7 @@ package com.algorithms.rushhour;
 public class Vehicle {
     private String vehicleType;
     private String color;
+    private char orientation;
     private int vehicleLength;
     private Coordinate[] fullVehicle;
 
@@ -11,6 +12,7 @@ public class Vehicle {
         color = c;
         fullVehicle = new Coordinate[3];
         vehicleLength = (vehicleType == "truck") ? 3 : 2;
+        orientation = o;
 
         // pivot point / point of interest
         fullVehicle[0] = new Coordinate(x,y);
@@ -54,5 +56,41 @@ public class Vehicle {
 
     public Coordinate[] getVehicleLoc(){
         return fullVehicle;
+    }
+
+    // Amount should be parsed as Positive!
+    public void moveVehicle(int amount, char dir){
+        if (orientation == 'h'){
+            switch(dir){
+                case 'R': // Moving to the right will be moving in x
+                    for (int i = 0; i < vehicleLength; i++){
+                        fullVehicle[i].moveX(amount);
+                    }
+                    break;
+                case 'L': // Moving to the left is -x
+                    for (int i = 0; i < vehicleLength; i++){
+                        fullVehicle[i].moveX(-amount);
+                    }
+                    break;
+                default:
+                    throw new InvalidMovementDirectionException("Vehicle in horizontal orientation, cannot move vertically!");
+            }
+        }
+        else {
+            switch(dir){
+                case 'U': // Moving up is +y
+                    for (int i = 0; i < vehicleLength; i++){
+                        fullVehicle[i].moveY(amount);
+                    }
+                    break;
+                case 'D': // Moving down is -y
+                    for (int i = 0; i < vehicleLength; i++){
+                        fullVehicle[i].moveY(-amount);
+                    }
+                    break;
+                default:
+                    throw new InvalidMovementDirectionException("Vehicle in vertical orientation, cannot move horizontally!");
+            }
+        }
     }
 }
