@@ -16,12 +16,12 @@ public class District {
         displayBoard = new int[6][6];
     }
 
-    public void inputVehicle(Vehicle v, int inputNumber, Boolean isGoalVehicle){
+    public void inputVehicle(Vehicle v, int inputNumber){
         allVehicles.add(v);
 
-        if (isGoalVehicle)
+        if (v.getColour() == "red"){
             goalVehicle = v;
-
+        }
         Coordinate[] tempV = v.getFullVehicle();
 
         for (int i = 0; i < v.getVehicleLen(); i++){
@@ -34,6 +34,10 @@ public class District {
 
     public Vehicle getGoalVehicle(){
         return goalVehicle;
+    }
+
+    public Vehicle getVehicle(int i){
+        return allVehicles.get(i);
     }
 
     public Coordinate[][] getBoard(){
