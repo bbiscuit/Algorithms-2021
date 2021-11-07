@@ -42,6 +42,7 @@ public class District {
     }
 
     public Vehicle[][] getBoard(){
+
         return gameBoard;
     }
 
