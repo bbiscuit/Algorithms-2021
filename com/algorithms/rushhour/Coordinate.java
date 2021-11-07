@@ -34,6 +34,13 @@ public class Coordinate {
         return y;
     }
 
+    public void moveX(int v){
+        x += v;
+    }
+
+    public void moveY(int v){
+        y += v;
+    }
 
     /**
      * toString override of type Coordinate.
