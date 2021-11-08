@@ -33,6 +33,18 @@ public class Vehicle {
         source = new Coordinate(x, y);
     }
 
+    public Vehicle(int vehicleLength, String color, Orientation orien, int x, int y) {
+        this.vehicleLength = vehicleLength;
+        this.color = color;
+        this.orientation = orien;
+        this.source = new Coordinate(x, y);
+    }
+
+    public Object clone() {
+        return new Vehicle(vehicleLength, color, orientation, source.getX(), source.getY());
+        
+    }
+
     /**
      * Gets the length of the vehicle.
      * @return The vehicle length.
@@ -64,5 +76,9 @@ public class Vehicle {
      */
     public Coordinate getSource() {
         return source;
+    }
+
+    public void setSource(int x, int y) {
+        source = new Coordinate(x, y);
     }
 }
