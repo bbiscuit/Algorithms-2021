@@ -14,9 +14,15 @@ public class District {
         // diplayBoard can be used for the algorithm to determine
         // if it has checked this iteration
         displayBoard = new int[6][6];
+        for (int i = 0; i < displayBoard.length; i++){
+            for (int j = 0; j < displayBoard[0].length; j++){
+                displayBoard[i][j] = 0;
+            }
+        }
+        allVehicles = new ArrayList<Vehicle>();
     }
 
-    public void inputVehicle(Vehicle v, int inputNumber){
+    public void inputVehicle(Vehicle v){
         allVehicles.add(v);
 
         if (v.getColour().equals("red"))
@@ -29,12 +35,27 @@ public class District {
             int tempY = tempCoordinate.getY();
             if (v.getOrientation() == Orientation.Horizontal){
                 gameBoard[tempX + i][tempY] = v;
+                displayBoard[tempX + i][tempY] = allVehicles.size();
             }
             else {
                 gameBoard[tempX][tempY + i] = v;
+                displayBoard[tempX][tempY + i] = allVehicles.size();
             }
             
         }
+    }
+
+
+    public static void main(String[] args) {
+        District Nine = new District();
+
+        Vehicle gameWinner = new Vehicle("car", "red", 'h', 3, 2);
+        Vehicle randomTruck = new Vehicle("truck", "purple", 'v', 0, 1);
+        Nine.inputVehicle(gameWinner);
+        Nine.inputVehicle(randomTruck);
+
+        System.out.println(Nine.toString());
+        
     }
 
     public Vehicle getGoalVehicle(){
@@ -57,10 +78,11 @@ public class District {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < 6; i++){
-            for (int j = 0; j < 6; j++){
-                sb.append(displayBoard[i][j] + " ");
+        for (int i = 0; i < displayBoard.length; i++){
+            for (int j = 0; j < displayBoard[0].length; j++){
+                sb.append(displayBoard[j][i]);
             }
+            sb.append('\n');
         }
         return sb.toString();
     }

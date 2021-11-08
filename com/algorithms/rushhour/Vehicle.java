@@ -27,7 +27,7 @@ public class Vehicle {
             orientation = Orientation.Vertical;
         }
         else {
-            throw new InvalidVehicleException("vehicle can either be vertical or horizontal.");
+            throw new InvalidVehicleTypeException("vehicle can either be vertical or horizontal.");
         }
 
         source = new Coordinate(x, y);
