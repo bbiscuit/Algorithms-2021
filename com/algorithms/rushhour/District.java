@@ -57,15 +57,13 @@ public class District {
 
         System.out.println(Nine.toString());
         System.out.println();
+
+        ArrayList<District> moves = Nine.allPossibleMoves();
         
-        System.out.println("VALID MOVES 4 GAMEWINNER ;):");
-        for (int i = -6; i <= 6; i++) {
-            if (Nine.validMove(randomTruck, i)) {
-                District x = Nine.move(randomTruck, i);
-                System.out.println(i + ": ");
-                System.out.println(x);
-                System.out.println();
-            }
+        System.out.println("VALID MOVES:");
+        for (District m : moves) {
+            System.out.println(m);
+            System.out.println();
         }
         
     }
@@ -297,12 +295,12 @@ public class District {
         }
     }
 
-    private ArrayList<Vehicle[][]> allPossibleMoves(Vehicle v) {
+    private ArrayList<District> allPossibleMoves(Vehicle v) {
         // I. Check if the vehicle is in play.
         // II. Build all permutations of one-turn movement for the given vehicle.
         // III. Return the permutations.
 
-        ArrayList<Vehicle[][]> result = new ArrayList<>();
+        ArrayList<District> result = new ArrayList<>();
 
         // I. Check if the vehicle is in play.
 
@@ -324,15 +322,35 @@ public class District {
         }
 
         // (Check all possible move locations for validity)
-        for (int i = -4; i <= 4; i++) {
-            if (validMove(v, i)) {
-                
+        for (int i = coord - 1; i >= 0; i--) {
+            District mov = move(v, i - coord);
+
+            if (mov != null) {
+                result.add(mov);
+            }
+        }
+
+        for (int i = coord + 1; i < 6; i++) {
+            District mov = move(v, i - coord);
+
+            if (mov != null) {
+                result.add(mov);
             }
         }
 
 
 
         // III. Return the permutations.
+
+        return result;
+    }
+
+    public ArrayList<District> allPossibleMoves() {
+        ArrayList<District> result = new ArrayList<>();
+
+        for (Vehicle v : allVehicles) {
+            result.addAll(allPossibleMoves(v));
+        }
 
         return result;
     }
