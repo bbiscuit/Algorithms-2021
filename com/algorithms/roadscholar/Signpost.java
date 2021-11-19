@@ -28,4 +28,24 @@ public class Signpost {
         this.source = source;
         this.path = path;
     }
+
+    // # GETTERS
+
+
+    /**
+     * Gets the source node for the road-scholar problem.
+     * @return The source.
+     */
+    public Node getSource() {
+        return source;
+    }
+
+
+    /**
+     * Gets the path upon which the signpost lies.
+     * @return The signpost.
+     */
+    public Path getPath() {
+        return path;
+    }
 }
