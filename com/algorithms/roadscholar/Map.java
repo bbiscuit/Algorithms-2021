@@ -59,4 +59,47 @@ public class Map {
     public int numPaths() {
         return paths.length;
     }
+
+
+    /**
+     * Gets the node at the index in the map.
+     * @param index The index to get at.
+     * @return The node.
+     * @throws BadInputException If the given index was greater than or equal
+     * to the number of nodes.
+     */
+    public Node getNode(int index) throws BadInputException {
+        // I. Input check.
+        // II. Return.
+
+        // I. Input check.
+
+        Helpers.assertLessThan(index, numNodes(), "index");
+
+        // II. Return.
+
+        return nodes[index];
+    }
+
+
+    /**
+     * Gets the path at the index in the map.
+     * @param index The index to get at.
+     * @return The path.
+     * @throws BadInputException If the given index is greater than or
+     * equal to the number of paths.
+     */
+    public Path getPath(int index) throws BadInputException {
+        // I. Input check.
+        // II. Return.
+
+
+        // I. Input check.
+
+        Helpers.assertLessThan(index, numPaths(), "index");
+        
+        // II. Return.
+
+        return paths[index];
+    }
 }
