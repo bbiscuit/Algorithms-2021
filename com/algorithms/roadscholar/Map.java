@@ -41,4 +41,22 @@ public class Map {
             this.paths[i] = paths[i];
         }
     }
+
+
+    /**
+     * Gets the number of nodes.
+     * @return The size.
+     */
+    public int numNodes() {
+        return nodes.length;
+    }
+
+
+    /**
+     * Gets the number of paths.
+     * @return the paths.
+     */
+    public int numPaths() {
+        return paths.length;
+    }
 }
