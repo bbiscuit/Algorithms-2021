@@ -97,9 +97,69 @@ public class Map {
         // I. Input check.
 
         Helpers.assertLessThan(index, numPaths(), "index");
-        
+
         // II. Return.
 
         return paths[index];
+    }
+
+
+    /**
+     * Gets the index of the given node in the list.
+     * @param n The node to check for.
+     * @return The index of that node.
+     * @throws NullArgumentException If the input node was null.
+     * @throws BadInputException If the input was not in the array.
+     */
+    public int indexOf(Node n) throws NullArgumentException, BadInputException {
+        // I. Null check.
+        // II. Run through the array, and find the index of the node.
+        // III. If nothing is found, throw.
+    
+        // I. Null check.
+
+        Helpers.nullCheck("n", n);
+
+        // II. Run through the array, and find the index of the node.
+
+        for (int i = 0; i < nodes.length; i++) {
+            if (nodes[i] == n) {
+                return i;
+            }
+        }
+
+        // III. If nothing is found, throw.
+
+        throw new BadInputException("'n' was not in the list");
+    }
+
+
+    /**
+     * Gets the index of the given path in the list.
+     * @param p The path to check for.
+     * @return The index of that path.
+     * @throws NullArgumentException If the input node was path.
+     * @throws BadInputException If the input was not in the array.
+     */
+    public int indexOf(Path p) throws NullArgumentException, BadInputException {
+        // I. Null check.
+        // II. Run through the array, and find the index of the path.
+        // III. If nothing is found, throw.
+    
+        // I. Null check.
+
+        Helpers.nullCheck("p", p);
+
+        // II. Run through the array, and find the index of the path.
+
+        for (int i = 0; i < paths.length; i++) {
+            if (paths[i] == p) {
+                return i;
+            }
+        }
+
+        // III. If nothing is found, throw.
+
+        throw new BadInputException("'p' was not in the list");
     }
 }
