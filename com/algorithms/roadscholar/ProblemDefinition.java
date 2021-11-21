@@ -111,4 +111,12 @@ public class ProblemDefinition {
             signs[i] = new Signpost(from, to, off);
         }
     }
+
+    /**
+     * Gets the number of signs defined in this problem.
+     * @return The number of signs.
+     */
+    public int numSigns() {
+        return signs.length;
+    }
 }
