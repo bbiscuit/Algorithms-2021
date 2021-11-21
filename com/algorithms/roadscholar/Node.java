@@ -30,4 +30,12 @@ public class Node {
             return name;
         }
     }
+
+    /**
+     * Gets the index of the node, for use in floyd-warshall.
+     * @return The index.
+     */
+    public int getIndex() {
+        return index;
+    }
 }
