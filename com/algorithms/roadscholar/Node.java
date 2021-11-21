@@ -1,116 +1,64 @@
 package com.algorithms.roadscholar;
 
-import java.util.ArrayList;
-
 /**
- * A node on the graph for the road-scholar problem.
+ * A node in the road-scholar problem.
  * @author Andrew Huffman
  */
 public class Node {
-    private String cityName;                                        // The name of the city, or 
-                                                                    // null if not a city.
-    private ArrayList<Path> outgoingPaths;                          // All paths leaving this node.
-
-    private static final int DEFAULT_OUTGOING_PATHS_CAPCITY = 5;    // The default capacity of the
-                                                                    // 'outgoingPaths' arraylist.
+    private String name;        // The name of the string, or null if there's no city at this node.
+    private int index;          // The index of the node; used in floyd-warshall.
 
     /**
-     * Constructor.
-     * @param cityName the name of the city.
-     * @throws NullArgumentException if the city name is null.
+     * Constructor. Recall that the node has to be made a city
+     * post-construction!
+     * @param index The index for use in floyd-warshall.
+     * @throws IndexOutOfBoundsException If the index is less than 0.
      */
-    public Node(String cityName) throws NullArgumentException {
-        // I. null check
-        // II. set data
+    public Node(int index) throws IndexOutOfBoundsException {
+        Helpers.assertGreaterThanOrEqual(index, 0, new IndexOutOfBoundsException("'index' must be greater than or equal to 0"));
 
-        // I. null check
-
-        Helpers.nullCheck("cityName", cityName);
-
-        // II. set data
-
-        this.cityName = cityName;
-        constructOutgoingPaths();
+        this.index = index;
+        this.name = null;
     }
 
-
     /**
-     * Constructor.
+     * Makes a node city-bearing.
+     * @param name The name of the city.
      */
-    public Node() {
-        this.cityName = null;
-        constructOutgoingPaths();
+    public void makeCity(String name) {
+        Helpers.assertNotNull(name, new NullInputException("Non-null input 'name' was null"));
+
+        this.name = name;
     }
 
-
     /**
-     * Whether or not the given intersection contains a city
-     * @return true if it contains a city
+     * Whether or not the node is a city.
+     * @return True if the node is a city node.
      */
-    public boolean containsCity() {
-        return cityName != null;
+    public boolean isCity() {
+        return name != null;
     }
 
-
     /**
-     * Adds an outgoing path to the node.
-     * @param p the path to add.
-     * @throws NullArgumentException if the given path was null.
+     * Gets the name of the city at this node, if it truly
+     * is a city.
+     * @return The city name.
+     * @throws NotACityException If the node was not a city.
      */
-    public void addPath(Path p) throws NullArgumentException {
-        // I. Null check
-        // II. add the path to the arraylist.
-    
-        // I. Null check
-
-        Helpers.nullCheck("p", p);
-
-        // II. add the path to the arraylist.
-    
-        outgoingPaths.add(p);
-    }
-
-
-    /**
-     * Gets the number of outgoing paths on the node.
-     * @return the number of paths.
-     */
-    public int numPaths() {
-        return outgoingPaths.size();
-    }
-
-
-    /**
-     * Gets the path at the index.
-     * @param index
-     * @return
-     */
-    public Path getPath(int index) {
-        Helpers.assertLessThan(index, numPaths(), "index");
-
-        return outgoingPaths.get(index);
-    } 
-
-
-    /**
-     * Gets the name of the city at the node.
-     * @return the city name.
-     * @throws NoCityException if this node does not contain a city.
-     */
-    public String getCity() throws NoCityException {
-        if (cityName == null) {
-            throw new NoCityException("Node did not contain a city.");
+    public String getCity() throws NotACityException {
+        if (name == null) {
+            throw new NotACityException("The node queried was not a city node");
         }
         else {
-            return cityName;
+            return name;
         }
     }
 
     /**
-     * Helper constructor method to build the outgoingPaths arraylist for the
-     * sake of homogeneity.
+     * Gets the index of the node, for use in floyd-warshall.
+     * @return The index.
      */
-    private void constructOutgoingPaths() {
-        this.outgoingPaths = new ArrayList<Path>(DEFAULT_OUTGOING_PATHS_CAPCITY);
+    public int getIndex() {
+        return index;
     }
 }
