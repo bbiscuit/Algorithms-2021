@@ -119,4 +119,22 @@ public class ProblemDefinition {
     public int numSigns() {
         return signs.length;
     }
+
+    /**
+     * Solves the road-scholar problem at the specified index.
+     * @param signIndex The index of the sign to solve for.
+     * @return The string that should be written on the sign.
+     * @throws IndexOutOfBoundsException if the index was out of bounds.
+     */
+    public String solve(int signIndex) throws IndexOutOfBoundsException {
+        Helpers.assertWithinRange(signIndex, 0, signs.length, 
+            new IndexOutOfBoundsException("Given sign index was out of bounds: " + signIndex));
+        Signpost sign = signs[signIndex];
+
+        float[][] best = new float[intersections.length][intersections.length];
+        float[][] lastBest = new float[intersections.length][intersections.length];
+        boolean[] isOnSign = new boolean[numCities];
+
+
+    }
 }
