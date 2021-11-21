@@ -15,4 +15,19 @@ public class Node {
     public boolean isCity() {
         return name != null;
     }
+
+    /**
+     * Gets the name of the city at this node, if it truly
+     * is a city.
+     * @return The city name.
+     * @throws NotACityException If the node was not a city.
+     */
+    public String getCity() throws NotACityException {
+        if (name == null) {
+            throw new NotACityException("The node queried was not a city node");
+        }
+        else {
+            return name;
+        }
+    }
 }
