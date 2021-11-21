@@ -9,7 +9,15 @@ public class Signpost {
     private float offset;           // The offset of the sign from the source.
     private int toIndex;            // The index of the node at the end of the path.
 
-    public Signpost(int sourceIndex, int toIndex, float offset) {
+    /**
+     * Constructor.
+     * @param sourceIndex The index of the source node.
+     * @param toIndex The index of the node at the end of the path.
+     * @param offset The offset of the sign from the source.
+     * @throws IndexOutOfBoundsException If either index is 0.
+     * @throws NegativeWeightException If the given offset weight is negative.
+     */
+    public Signpost(int sourceIndex, int toIndex, float offset) throws IndexOutOfBoundsException, NegativeWeightException {
         Helpers.assertGreaterThanOrEqual(sourceIndex, 0, 
             new IndexOutOfBoundsException("'sourceIndex' must be greater than 0. Val: " + sourceIndex));
         Helpers.assertGreaterThanOrEqual(toIndex, 0, 
