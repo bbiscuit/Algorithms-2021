@@ -9,6 +9,16 @@ public class Node {
     private int index;          // The index of the node; used in floyd-warshall.
 
     /**
+     * Constructor. Recall that the node has to be made a city
+     * post-construction!
+     * @param index The index for use in floyd-warshall.
+     */
+    public Node(int index) {
+        this.index = index;
+        this.name = null;
+    }
+
+    /**
      * Whether or not the node is a city.
      * @return True if the node is a city node.
      */
