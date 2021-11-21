@@ -49,4 +49,10 @@ public class Helpers {
             throw e;
         }
     }
+
+    public static void assertWithinRange(int val, int from, int to, RuntimeException e) {
+        if (val < from || val >= to) {
+            throw e;
+        }
+    }
 }
