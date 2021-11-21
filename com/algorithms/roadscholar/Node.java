@@ -12,8 +12,11 @@ public class Node {
      * Constructor. Recall that the node has to be made a city
      * post-construction!
      * @param index The index for use in floyd-warshall.
+     * @throws IndexOutOfBoundsException If the index is less than 0.
      */
-    public Node(int index) {
+    public Node(int index) throws IndexOutOfBoundsException {
+        Helpers.assertGreaterThanOrEqual(index, 0, new IndexOutOfBoundsException("'index' must be greater than or equal to 0"));
+
         this.index = index;
         this.name = null;
     }
