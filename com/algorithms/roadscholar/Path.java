@@ -7,6 +7,7 @@ package com.algorithms.roadscholar;
 public class Path {
     private int indexA;     // The index of the first node along the path.
     private int indexB;     // The index of the second node along the path.
+    private float weight;   // The weight of the path.
 
     /**
      * Gets the index for the first node along the path.
@@ -22,5 +23,13 @@ public class Path {
      */
     public int getB() {
         return indexB;
+    }
+
+    /**
+     * Gets the weight (length) of the path.
+     * @return The weight of the path.
+     */
+    public float getWeight() {
+        return weight;
     }
 }
