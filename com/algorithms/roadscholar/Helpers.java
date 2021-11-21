@@ -18,6 +18,12 @@ public class Helpers {
         }
     }
 
+    public static void assertGreaterThanOrEqual(float val, float base, RuntimeException e) {
+        if (val <= base) {
+            throw e;
+        }
+    }
+
     public static void assertLessThan(int val, int base, RuntimeException e) {
         if (val >= base) {
             throw e;
