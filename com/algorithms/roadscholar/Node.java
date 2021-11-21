@@ -19,6 +19,16 @@ public class Node {
     }
 
     /**
+     * Makes a node city-bearing.
+     * @param name The name of the city.
+     */
+    public void makeCity(String name) {
+        Helpers.assertNotNull(name, new NullInputException("Non-null input 'name' was null"));
+
+        this.name = name;
+    }
+
+    /**
      * Whether or not the node is a city.
      * @return True if the node is a city node.
      */
