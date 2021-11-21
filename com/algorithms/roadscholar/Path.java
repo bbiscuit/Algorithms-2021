@@ -9,7 +9,15 @@ public class Path {
     private int indexB;     // The index of the second node along the path.
     private float weight;   // The weight of the path.
 
-    public Path(int indexA, int indexB, float weight) {
+    /**
+     * Constructor.
+     * @param indexA The index of the first node along the path.
+     * @param indexB The index of the second node along the path.
+     * @param weight The weight of the path.
+     * @throws IndexOutOfBoundsException If either index is negative.
+     * @throws NegativeWeightException If the weight is negative.
+     */
+    public Path(int indexA, int indexB, float weight) throws IndexOutOfBoundsException, NegativeWeightException {
         Helpers.assertGreaterThanOrEqual(indexA, 0, 
             new IndexOutOfBoundsException("'indexA' must be greater than or equal to 0. Val: " + indexA));
         Helpers.assertGreaterThanOrEqual(indexB, 0, 
