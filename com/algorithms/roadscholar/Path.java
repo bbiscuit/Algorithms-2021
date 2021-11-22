@@ -53,4 +53,8 @@ public class Path {
     public float getWeight() {
         return weight;
     }
+
+    public boolean endpointsMatch(int a, int b) {
+        return (this.indexA == a && this.indexB == b) || (this.indexA == b && this.indexB == a);
+    }
 }
