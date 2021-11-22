@@ -2,7 +2,8 @@ package com.algorithms.roadscholar;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.util.Scanner; 
+import java.util.ArrayList;
 
 /**
  * Input reader class for the road-scholar problem.
@@ -85,9 +86,9 @@ public class ProblemDefinition {
                 new IndexOutOfBoundsException("City index was out of range of Nodes list"));
 
             Helpers.assertHasNextLine(input, new MalformedInputException("Expected city name"));
-            name = input.nextLine();
+            name = input.nextLine().trim();
 
-            intersections[i].makeCity(name);
+            intersections[index].makeCity(name);
         }
         
         // V. Build signposts.
@@ -130,10 +131,11 @@ public class ProblemDefinition {
      * @return The string that should be written on the sign.
      * @throws IndexOutOfBoundsException if the index was out of bounds.
      */
-    public String solve(int signIndex) throws IndexOutOfBoundsException {
+    public String solve() {
+        /*
         Helpers.assertWithinRange(signIndex, 0, signs.length, 
             new IndexOutOfBoundsException("Given sign index was out of bounds: " + signIndex));
-        Signpost sign = signs[signIndex];
+        Signpost sign = signs[signIndex];*/
 
         float[][] best = new float[intersections.length][intersections.length];
         Node[] cityNodes = new Node[this.numCities];
@@ -186,33 +188,49 @@ public class ProblemDefinition {
                 for (int v = 0; v < intersections.length; v++) {
                     if (best[u][k] + best[k][v] < best[u][v]) {
                         best[u][v] = best[u][k] + best[k][v];
-                        // best[v][u] = best[k][u] + best[v][k];
                         predecessor[u][v] = predecessor[k][v];
                     }
                 }
             }
         }
 
+        // Interpret results
 
-
-        // Build result
-
-        StringBuilder sb = new StringBuilder();
+        var results = new ArrayList<ArrayList<Tuple<Float, Node>>>(this.numSigns());
         
-        Path signPath = new Path(sign.getSource(), sign.getTo(), 1.0f);
-        for (var city : cityNodes) {
-            if (signPath.endpointsMatch(sign.getSource(), predecessor[city.getIndex()][sign.getSource()])) {
-                float display = best[sign.getSource()][city.getIndex()] - sign.getOffset();
+        for (var sign : signs) {
+            var cityVals = new ArrayList<Tuple<Float, Node>>(this.numCities);
 
-                if (display - (int)display > 0.5f) {
+            Path p = new Path(sign.getSource(), sign.getTo(), 1.0f);
+            for (var city : cityNodes) {
+                if (p.endpointsMatch(sign.getSource(), predecessor[city.getIndex()][sign.getSource()])) {
+                    cityVals.add(new Tuple<Float, Node>(best[sign.getSource()][city.getIndex()] - sign.getOffset(), city));
+                }
+            }
+            results.add(cityVals);
+        }
+
+        
+        StringBuilder sb = new StringBuilder();
+
+        for (var result : results) {
+            result.sort(new TupleFloatNodeComparator());
+            for (var tuple : result) {
+                float display = tuple.getKey();
+
+                if (display - (int)display >= 0.5f) {
                     display += 1;
                 }
 
-                sb.append(city.getCity() + "          " + (int)display + "\n");
+                sb.append(String.format("%-20s%d\n", tuple.getVal().getCity(),(int)display));
             }
+            sb.append('\n');
         }
 
-        return sb.toString();
+        String finalString = sb.toString();
+
+        // cut off the last newline
+        return finalString.substring(0, finalString.length() - 2);
     }
 
     /**
@@ -224,7 +242,7 @@ public class ProblemDefinition {
      */
     float weight(int a, int b) {
         if (a == b) {
-            return INFINITY;
+            return 0.0f;
         }
 
         for (var e : roads) {
@@ -242,9 +260,7 @@ public class ProblemDefinition {
 
         ProblemDefinition pd = new ProblemDefinition(s);
         
-        for (int i = 0; i < pd.numSigns(); i++) {
-            System.out.println(pd.solve(i));
-        }
+        System.out.println(pd.solve());
 
         s.close();
     }
