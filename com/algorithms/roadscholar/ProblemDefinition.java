@@ -14,6 +14,8 @@ public class ProblemDefinition {
     private Path[] roads;
     private Signpost[] signs;
 
+    private static final float INFINITY = 1E20f;
+
     /**
      * Constructor.
      * @param input The scanner from which to derive the input.
@@ -135,14 +137,13 @@ public class ProblemDefinition {
 
         float[][] best = new float[intersections.length][intersections.length];
         Node[] cityNodes = new Node[this.numCities];
-        boolean[] onSign = new boolean[this.numCities];
-        int[][] nextLoc = new int[intersections.length][intersections.length];
+        int[][] predecessor = new int[intersections.length][intersections.length];
 
-        // Populate nextLoc
+        // Populate predecessor
         
         for (int i = 0; i < intersections.length; i++) {
             for (int j = 0; j < intersections.length; j++) {
-                nextLoc[i][j] = -1;
+                predecessor[i][j] = -1;
             }
         }
 
@@ -155,36 +156,59 @@ public class ProblemDefinition {
             }
         }
 
-        // Fill best0
+        // Fill best
 
-        for (int i = 0; i < intersections.length; i++) {
-            for (int j = 0; j < intersections.length; j++) {
-                best[i][j] = weight(i, j);
-                nextLoc[i][j] = j;
+        for (int i = 0; i < best.length; i++) {
+            for (int j = 0; j < best[i].length; j++) {
+                best[i][j] = INFINITY;
             }
         }
 
-        // Belmond ford
+        // Solve predecessor0 and best0
+
+        for (int i = 0; i < intersections.length; i++) {
+            for (int j = 0; j < intersections.length; j++) {
+                float wgt = weight(i, j);
+                
+                if (wgt < INFINITY) {
+                    best[i][j] = wgt;
+                    best[j][i] = wgt;
+                    predecessor[i][j] = i;
+                    predecessor[j][i] = j;
+                }
+            }
+        }
+
+        // Floyd warshall
 
         for (int k = 0; k < intersections.length; k++) {
             for (int u = 0; u < intersections.length; u++) {
                 for (int v = 0; v < intersections.length; v++) {
                     if (best[u][k] + best[k][v] < best[u][v]) {
                         best[u][v] = best[u][k] + best[k][v];
-                        nextLoc[u][v] = nextLoc[u][k];
+                        // best[v][u] = best[k][u] + best[v][k];
+                        predecessor[u][v] = predecessor[k][v];
                     }
                 }
             }
         }
+
+
 
         // Build result
 
         StringBuilder sb = new StringBuilder();
         
         Path signPath = new Path(sign.getSource(), sign.getTo(), 1.0f);
-        for (var e : cityNodes) {
-            if (isOnPath(signPath, sign.getSource(), e.getIndex(), nextLoc)) {
-                sb.append(e.getCity() + ":\t" + (best[sign.getSource()][e.getIndex()] - sign.getOffset()) + "\n");
+        for (var city : cityNodes) {
+            if (signPath.endpointsMatch(sign.getSource(), predecessor[city.getIndex()][sign.getSource()])) {
+                float display = best[sign.getSource()][city.getIndex()] - sign.getOffset();
+
+                if (display - (int)display > 0.5f) {
+                    display += 1;
+                }
+
+                sb.append(city.getCity() + "          " + (int)display + "\n");
             }
         }
 
@@ -200,42 +224,16 @@ public class ProblemDefinition {
      */
     float weight(int a, int b) {
         if (a == b) {
-            return 0.0f;
+            return INFINITY;
         }
 
         for (var e : roads) {
-            int rA = e.getA();
-            int rB = e.getB();
-
-            if ((rA == a && rB == b) || (rA == b && rB == a)) {
+            if (e.endpointsMatch(a, b)) {
                 return e.getWeight();
             }
         }
 
-        return 1E20f;
-    }
-
-    boolean isOnPath(Path p, int a, int b, int[][] nextHop) {
-        // Sanity check
-        if (p.endpointsMatch(a, b)) {
-            return true;
-        }
-
-        // No legal path between the two
-        if (nextHop[a][b] == -1) {
-            return false;
-        }
-
-        int lastLoc = a;
-        while (a != b) {
-            a = nextHop[a][b];
-
-            if (p.endpointsMatch(a, lastLoc)) {
-                return true;
-            }
-        }
-
-        return false;
+        return INFINITY;
     }
 
     public static void main(String[] args) throws FileNotFoundException {
