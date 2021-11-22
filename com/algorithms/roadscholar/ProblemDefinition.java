@@ -1,5 +1,7 @@
 package com.algorithms.roadscholar;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /**
@@ -132,9 +134,120 @@ public class ProblemDefinition {
         Signpost sign = signs[signIndex];
 
         float[][] best = new float[intersections.length][intersections.length];
-        float[][] lastBest = new float[intersections.length][intersections.length];
-        boolean[] isOnSign = new boolean[numCities];
+        Node[] cityNodes = new Node[this.numCities];
+        boolean[] onSign = new boolean[this.numCities];
+        int[][] nextLoc = new int[intersections.length][intersections.length];
 
+        // Populate nextLoc
+        
+        for (int i = 0; i < intersections.length; i++) {
+            for (int j = 0; j < intersections.length; j++) {
+                nextLoc[i][j] = -1;
+            }
+        }
 
+        // Fill the cities array
+
+        for (int i = 0, j = 0; i < this.intersections.length; i++) {
+            if (this.intersections[i].isCity()) {
+                cityNodes[j] = this.intersections[i];
+                j++;
+            }
+        }
+
+        // Fill best0
+
+        for (int i = 0; i < intersections.length; i++) {
+            for (int j = 0; j < intersections.length; j++) {
+                best[i][j] = weight(i, j);
+                nextLoc[i][j] = j;
+            }
+        }
+
+        // Belmond ford
+
+        for (int k = 0; k < intersections.length; k++) {
+            for (int u = 0; u < intersections.length; u++) {
+                for (int v = 0; v < intersections.length; v++) {
+                    if (best[u][k] + best[k][v] < best[u][v]) {
+                        best[u][v] = best[u][k] + best[k][v];
+                        nextLoc[u][v] = nextLoc[u][k];
+                    }
+                }
+            }
+        }
+
+        // Build result
+
+        StringBuilder sb = new StringBuilder();
+        
+        Path signPath = new Path(sign.getSource(), sign.getTo(), 1.0f);
+        for (var e : cityNodes) {
+            if (isOnPath(signPath, sign.getSource(), e.getIndex(), nextLoc)) {
+                sb.append(e.getCity() + ":\t" + (best[sign.getSource()][e.getIndex()] - sign.getOffset()) + "\n");
+            }
+        }
+
+        return sb.toString();
+    }
+
+    /**
+     * Determines the weight of the edge between these two vertices,
+     * or 1E20 if not found.
+     * @param a Vertex a.
+     * @param b Vertex b.
+     * @return The weight value, or 1E20.
+     */
+    float weight(int a, int b) {
+        if (a == b) {
+            return 0.0f;
+        }
+
+        for (var e : roads) {
+            int rA = e.getA();
+            int rB = e.getB();
+
+            if ((rA == a && rB == b) || (rA == b && rB == a)) {
+                return e.getWeight();
+            }
+        }
+
+        return 1E20f;
+    }
+
+    boolean isOnPath(Path p, int a, int b, int[][] nextHop) {
+        // Sanity check
+        if (p.endpointsMatch(a, b)) {
+            return true;
+        }
+
+        // No legal path between the two
+        if (nextHop[a][b] == -1) {
+            return false;
+        }
+
+        int lastLoc = a;
+        while (a != b) {
+            a = nextHop[a][b];
+
+            if (p.endpointsMatch(a, lastLoc)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static void main(String[] args) throws FileNotFoundException {
+        File f = new File("./test_in");
+        Scanner s = new Scanner(f);
+
+        ProblemDefinition pd = new ProblemDefinition(s);
+        
+        for (int i = 0; i < pd.numSigns(); i++) {
+            System.out.println(pd.solve(i));
+        }
+
+        s.close();
     }
 }
